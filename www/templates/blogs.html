@@ -1,0 +1,61 @@
+{% extends '__base__.html' %}
+
+{% block title %}日志{% endblock %}
+
+{% block beforehead %}
+<script>
+	function initVM(data) {
+		var vm = new Vue({
+			el: '#vm',
+			data: {
+				blogs: data.blogs,
+				page: data.page
+			}
+		});
+		$('#vm').show();
+	}
+	$(function() {
+		// awesome.js中的getJSON(url,data,callback)把data中的参数转换为形如"a=1&b=2"的键值对
+		// 然后传递给_httpJSON函数提交
+		getJSON('/api/blogs', {
+			page: {{ page_index }}
+		}, function (err, results) {
+			if (err) {
+				return fatal(err);
+			}
+			$('#loading').hide();
+			// results是handlers.py中api_blogs函数返回的dict
+			initVM(results);
+		});
+	});
+</script>
+{% endblock %}
+
+{% block content %}
+
+	<div id="vm" class="uk-width-medium-3-4">
+		<div v-repeat="blog: blogs">
+			<article class="uk-article">
+				<h2><a target="_blank" v-attr="href: '/blog/'+blog.id" v-text="blog.name"></a></h2>
+				<!-- 通过jinja2的filter(过滤器), 把一个浮点数转换成日期字符串 -->
+				<p v-text="blog.created_at.toDateTime()" class="uk-article-meta"></p>
+				<p v-text="blog.summary"></p>
+				<p><a target="_blank" v-attr="href: '/blog/'+blog.id">继续阅读 <i class="uk-icon-angle-double-right"></i></a></p>
+			</article>
+			<hr class="uk-article-divider">
+		</div>
+		<div v-component="pagination" v-with="page"></div>
+	</div>
+
+	<div class="uk-width-medium-1-4">
+		<div class="uk-panel uk-panel-header">
+			<h3 class="uk-panel-title">友情链接</h3>
+			<ul class="uk-list uk-list-line">
+				<li><i class="uk-icon-thumbs-o-up"></i> <a target="_blank" href="#">编程</a></li>
+				<li><i class="uk-icon-thumbs-o-up"></i> <a target="_blank" href="#">读书</a></li>
+				<li><i class="uk-icon-thumbs-o-up"></i> <a target="_blank" href="#">Python教程</a></li>
+				<li><i class="uk-icon-thumbs-o-up"></i> <a target="_blank" href="#">Git教程</a></li>
+			</ul>
+		</div>
+	</div>
+{% endblock %}
