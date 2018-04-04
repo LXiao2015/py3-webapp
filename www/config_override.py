@@ -1,5 +1,6 @@
 configs = {
 	'db': {
-		'host': '192.168.179.140'
+#		'host': '172.16.252.151'
+                'host': 'localhost'
 	}
 }

@@ -3,7 +3,7 @@ drop database if exists awesome;
 create database awesome;
 use awesome;
 # 将awesome数据库下所有表的增删改查权限授予指定用户'www-data', 密码为'www-data'
-grant select, insert, update, delete on awesome.* to 'www-data'@'192.168.179.140' identified by 'www-data';
+grant select, insert, update, delete on awesome.* to 'www-data'@'localhost' identified by 'www-data';
 
 create table users (
 	`id` varchar(50) not null,

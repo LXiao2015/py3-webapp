@@ -22,6 +22,8 @@
 	<meta charset="utf-8" />
 	{% block meta %}<!-- 用于子页面定义一些meta, 例如RSS feed -->{% endblock %}
 	<title>{% block title %}<!-- 页面的标题 --> ? {% endblock %} - Awesome Python Webapp</title>
+	<link rel="stylesheet" href="/static/css/markdown.min.css">
+	<link rel="stylesheet" href="/static/css/markdown.css">
 	<link rel="stylesheet" href="/static/css/uikit.min.css">
 	<link rel="stylesheet" href="/static/css/uikit.gradient.min.css">
 	<link rel="stylesheet" href="/static/css/awesome.css">
@@ -39,12 +41,12 @@
 	<nav class="uk-navbar uk-navbar-attached uk-margin-bottom">
 		<div class="uk-container uk-container-center">
 			<!-- 标题和栏目 -->
-			<a href="/" class="uk-navbar-brand">Awesome</a>
+			<a href="/" class="uk-navbar-brand">顽强的猫尾草</a>
 			<ul class="uk-navbar-nav">
 				<li data-url="blogs"><a href="/"><i class="uk-icon-home"></i> 日志</a></li>
 				<!-- 在新窗口中打开链接 -->
-				<li><a target="_blank" href="#"><i class="uk-icon-book"></i> 教程</a></li>
-				<li><a target="_blank" href="#"><i class="uk-icon-code"></i> 源码</a></li>
+				<!-- <li><a target="_blank" href="https://leetcode.com/problemset/algorithms/"><i class="uk-icon-book"></i> LeetCode</a></li>
+				<li><a target="_blank" href="http://dblp.org/search/"><i class="uk-icon-code"></i> 论文</a></li> -->
 			</ul>
 			<!-- 用户信息 -->
 			<div class="uk-navbar-flip">
@@ -79,13 +81,13 @@
 		<div class="uk-container uk-container-center uk-text-center">
 			<div class="uk-panel uk-margin-top uk-margin-bottom">
 				<p>
-					<a terget="_blank" href="#" class="uk-icon-button uk-icon-weibo"></a>
-					<a terget="_blank" href="#" class="uk-icon-button uk-icon-github"></a>
-					<a terget="_blank" href="#" class="uk-icon-button uk-icon-linkedin-square"></a>
-					<a terget="_blank" href="#" class="uk-icon-button uk-icon-twitter"></a>
+					<a terget="_blank" title="微博" href="https://weibo.com/2978255741/profile?topnav=1&wvr=6" class="uk-icon-button uk-icon-weibo"></a>
+					<a terget="_blank" title="GitHub" href="https://github.com/LXiao2015" class="uk-icon-button uk-icon-github"></a>
+					<a terget="_blank" title="简书" href="https://www.jianshu.com/u/581759327d44" class="uk-icon-button uk-icon-book"></a>
+                                        <a terget="_blank" title="发邮件" href="mailto:m15801021028@163.com" class="uk-icon-button uk-icon-envelope"></a>
 				</p>
 				<p>Powered by <a href="#">Awesome Python Webapp</a>. Copyright &copy; 2017.  [<a href="/manage/" target="_blank">Manage</a>]</p>
-				<p><a href="http:www.lx.com/" target="_blank">www.lx.com</a>. All rights reserved.</p>
+				<p><a href="http:www.lxiao.net/" target="_blank">www.lxiao.net</a>. All rights reserved.</p>
 				<a target="_blank" href="#"><i class="uk-icon-html5" style="font-size:64px; color: #444;"></i></a>
 			</div>
 		</div>
