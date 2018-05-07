@@ -151,7 +151,7 @@ async def init(loop):
 	add_routes(app, 'handlers')
 	add_static(app)
 	# 用协程创建TCP服务（这里写的是我的虚拟机地址，为了本机也能访问）
-	srv = await loop.create_server(app.make_handler(), '0.0.0.0', 80, reuse_address=True, reuse_port=True)
+	srv = await loop.create_server(app.make_handler(), '0.0.0.0', 8000, reuse_address=True, reuse_port=True)
 	logging.info('Server started at http://60.205.221.43:80...') 
 	return srv
 

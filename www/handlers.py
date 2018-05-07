@@ -177,7 +177,7 @@ async def api_create_comment(id, request, *, content):
 @post('/api/comments/{id}/delete')
 async def api_delete_comment(id, request):
 	check_admin(request)
-	comment = Comment.find(id)
+	comment = await Comment.find(id)
 	if comment is None:
 		raise APIResourceNotFoundError('Comment')
 	await comment.remove()
