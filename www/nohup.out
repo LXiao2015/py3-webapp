@@ -41814,3 +41814,939 @@ INFO:root:Rows returned: 1
 INFO:root:SQL: select `id`, `user_image`, `content`, `user_name`, `user_id`, `created_at`, `blog_id` from `comments` where blog_id=? order by created_at desc
 INFO:root:Rows returned: 0
 INFO:aiohttp.access:106.120.206.141 [18/May/2018:09:00:14 +0000] "GET /blog/00152643217690202f1750dd23a4ea28e603e3e29fc4cd8000 HTTP/1.1" 200 14801 "http://www.lxiao.net:8000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
+INFO:root:Found model: User (table: users)
+INFO:root:  Found mapping: name ==> <StringField, varchar(100):None>
+INFO:root:  Found mapping: id ==> <IntegerField, bigint:None>
+INFO:root:Found model: User (table: users)
+INFO:root:  Found mapping: name ==> <StringField, varchar(100):None>
+INFO:root:  Found mapping: id ==> <IntegerField, bigint:None>
+INFO:root:Found model: User (table: users)
+INFO:root:  Found mapping: name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: passwd ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: image ==> <StringField, varchar(500):None>
+INFO:root:  Found mapping: admin ==> <BooleanField, boolean:None>
+INFO:root:  Found mapping: email ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: id ==> <StringField, varchar(50):None>
+INFO:root:Found model: Blog (table: blogs)
+INFO:root:  Found mapping: name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: user_name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: content ==> <TextField, text:None>
+INFO:root:  Found mapping: user_image ==> <StringField, varchar(500):None>
+INFO:root:  Found mapping: user_id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: summary ==> <StringField, varchar(200):None>
+INFO:root:  Found mapping: id ==> <StringField, varchat(50):None>
+INFO:root:Found model: Comment (table: comments)
+INFO:root:  Found mapping: user_name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: user_image ==> <StringField, varchar(500):None>
+INFO:root:  Found mapping: user_id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: content ==> <TextField, text:None>
+INFO:root:  Found mapping: blog_id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: id ==> <StringField, varchar(50):None>
+INFO:root:Create database connection pool...
+INFO:root:Init jinja2...
+INFO:root:Set jinja2 template path: /home/admin/webapp/www/templates
+INFO:root:add route GET /api/blogs => api_blogs(page)
+INFO:root:add route GET /api/comments => api_comments(page)
+INFO:root:add route POST /api/blogs => api_create_blog(request, name, summary, content)
+INFO:root:add route POST /api/blogs/{id}/comments => api_create_comment(id, request, content)
+INFO:root:add route POST /api/blogs/{id}/delete => api_delete_blog(id, request)
+INFO:root:add route POST /api/comments/{id}/delete => api_delete_comment(id, request)
+INFO:root:add route GET /api/blogs/{id} => api_get_blog(id)
+INFO:root:add route GET /api/users => api_get_users(page)
+INFO:root:add route POST /api/users => api_register_user(email, name, passwd)
+INFO:root:add route POST /api/blogs/{id} => api_update_blog(id, request, name, summary, content)
+INFO:root:add route POST /api/authenticate => authenticate(email, passwd)
+INFO:root:add route GET /blog/{id} => get_blog(id)
+INFO:root:add route GET / => index(request, page)
+INFO:root:add route GET /manage/ => manage()
+INFO:root:add route GET /manage/blogs => manage_blogs(page)
+INFO:root:add route GET /manage/comments => manage_comments(page)
+INFO:root:add route GET /manage/blogs/create => manage_create_blogs()
+INFO:root:add route GET /manage/blogs/edit => manage_edit_blog(id)
+INFO:root:add route GET /manage/users => manage_users(page)
+INFO:root:add route GET /register => register()
+INFO:root:add route GET /signin => signin()
+INFO:root:add route GET /signout => signout(request)
+INFO:root:add static /static/ => /home/admin/webapp/www/static
+INFO:root:Server started at http://60.205.221.43:80...
+INFO:root:Found model: User (table: users)
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: email ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: admin ==> <BooleanField, boolean:None>
+INFO:root:  Found mapping: image ==> <StringField, varchar(500):None>
+INFO:root:  Found mapping: id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: passwd ==> <StringField, varchar(50):None>
+INFO:root:Found model: Blog (table: blogs)
+INFO:root:  Found mapping: summary ==> <StringField, varchar(200):None>
+INFO:root:  Found mapping: user_id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: user_image ==> <StringField, varchar(500):None>
+INFO:root:  Found mapping: name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: content ==> <TextField, text:None>
+INFO:root:  Found mapping: user_name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: id ==> <StringField, varchat(50):None>
+INFO:root:Found model: Comment (table: comments)
+INFO:root:  Found mapping: blog_id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: user_id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: user_image ==> <StringField, varchar(500):None>
+INFO:root:  Found mapping: content ==> <TextField, text:None>
+INFO:root:  Found mapping: user_name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: id ==> <StringField, varchar(50):None>
+INFO:root:Create database connection pool...
+INFO:root:Init jinja2...
+INFO:root:Set jinja2 template path: /home/admin/webapp/www/templates
+INFO:root:add route GET /api/blogs => api_blogs(page)
+INFO:root:add route GET /api/comments => api_comments(page)
+INFO:root:add route POST /api/blogs => api_create_blog(request, name, summary, content)
+INFO:root:add route POST /api/blogs/{id}/comments => api_create_comment(id, request, content)
+INFO:root:add route POST /api/blogs/{id}/delete => api_delete_blog(id, request)
+INFO:root:add route POST /api/comments/{id}/delete => api_delete_comment(id, request)
+INFO:root:add route GET /api/blogs/{id} => api_get_blog(id)
+INFO:root:add route GET /api/users => api_get_users(page)
+INFO:root:add route POST /api/users => api_register_user(email, name, passwd)
+INFO:root:add route POST /api/blogs/{id} => api_update_blog(id, request, name, summary, content)
+INFO:root:add route POST /api/authenticate => authenticate(email, passwd)
+INFO:root:add route GET /blog/{id} => get_blog(id)
+INFO:root:add route GET / => index(request, page)
+INFO:root:add route GET /manage/ => manage()
+INFO:root:add route GET /manage/blogs => manage_blogs(page)
+INFO:root:add route GET /manage/comments => manage_comments(page)
+INFO:root:add route GET /manage/blogs/create => manage_create_blogs()
+INFO:root:add route GET /manage/blogs/edit => manage_edit_blog(id)
+INFO:root:add route GET /manage/users => manage_users(page)
+INFO:root:add route GET /register => register()
+INFO:root:add route GET /signin => signin()
+INFO:root:add route GET /signout => signout(request)
+INFO:root:add static /static/ => /home/admin/webapp/www/static
+INFO:root:Server started at http://60.205.221.43:80...
+INFO:root:Request: GET /blog/001526633743922ed51f806d7bc4231abdf715ea1b58f46000
+INFO:root:Check user: GET /blog/001526633743922ed51f806d7bc4231abdf715ea1b58f46000
+INFO:root:SQL: select `id`, `name`, `passwd`, `created_at`, `image`, `admin`, `email` from `users` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:Set current user: m15801021028@163.com
+INFO:root:Response handler...
+INFO:root:Call with arg: {'id': '001526633743922ed51f806d7bc4231abdf715ea1b58f46000'}
+INFO:root:SQL: select `id`, `name`, `user_name`, `created_at`, `content`, `user_image`, `user_id`, `summary` from `blogs` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:SQL: select `id`, `user_name`, `created_at`, `user_image`, `user_id`, `content`, `blog_id` from `comments` where blog_id=? order by created_at desc
+INFO:root:Rows returned: 0
+INFO:aiohttp.access:106.120.206.141 [18/May/2018:09:11:22 +0000] "GET /blog/001526633743922ed51f806d7bc4231abdf715ea1b58f46000 HTTP/1.1" 200 9967 "http://www.lxiao.net:8000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
+INFO:root:Request: GET /static/css/pygments-css/tango.css
+INFO:root:Check user: GET /static/css/pygments-css/tango.css
+INFO:root:SQL: select `id`, `name`, `passwd`, `created_at`, `image`, `admin`, `email` from `users` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:Set current user: m15801021028@163.com
+INFO:root:Response handler...
+INFO:aiohttp.access:106.120.206.141 [18/May/2018:09:11:22 +0000] "GET /static/css/pygments-css/tango.css HTTP/1.1" 200 5270 "http://www.lxiao.net:8000/blog/001526633743922ed51f806d7bc4231abdf715ea1b58f46000" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
+INFO:root:Request: GET /blog/001526556821030ccf52786546147c2a8bff1c58626db9e000
+INFO:root:Check user: GET /blog/001526556821030ccf52786546147c2a8bff1c58626db9e000
+INFO:root:SQL: select `id`, `name`, `passwd`, `created_at`, `image`, `admin`, `email` from `users` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:Set current user: m15801021028@163.com
+INFO:root:Response handler...
+INFO:root:Call with arg: {'id': '001526556821030ccf52786546147c2a8bff1c58626db9e000'}
+INFO:root:SQL: select `id`, `name`, `user_name`, `created_at`, `content`, `user_image`, `user_id`, `summary` from `blogs` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:SQL: select `id`, `user_name`, `created_at`, `user_image`, `user_id`, `content`, `blog_id` from `comments` where blog_id=? order by created_at desc
+INFO:root:Rows returned: 0
+INFO:aiohttp.access:106.120.206.141 [18/May/2018:09:11:37 +0000] "GET /blog/001526556821030ccf52786546147c2a8bff1c58626db9e000 HTTP/1.1" 200 13604 "http://www.lxiao.net:8000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
+INFO:root:Request: GET /blog/001526633743922ed51f806d7bc4231abdf715ea1b58f46000
+INFO:root:Check user: GET /blog/001526633743922ed51f806d7bc4231abdf715ea1b58f46000
+INFO:root:SQL: select `id`, `name`, `passwd`, `created_at`, `image`, `admin`, `email` from `users` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:Set current user: m15801021028@163.com
+INFO:root:Response handler...
+INFO:root:Call with arg: {'id': '001526633743922ed51f806d7bc4231abdf715ea1b58f46000'}
+INFO:root:SQL: select `id`, `name`, `user_name`, `created_at`, `content`, `user_image`, `user_id`, `summary` from `blogs` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:SQL: select `id`, `user_name`, `created_at`, `user_image`, `user_id`, `content`, `blog_id` from `comments` where blog_id=? order by created_at desc
+INFO:root:Rows returned: 0
+INFO:aiohttp.access:106.120.206.141 [18/May/2018:09:11:43 +0000] "GET /blog/001526633743922ed51f806d7bc4231abdf715ea1b58f46000 HTTP/1.1" 200 9967 "http://www.lxiao.net:8000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
+INFO:root:Request: GET /manage/blogs/edit
+INFO:root:Check user: GET /manage/blogs/edit
+INFO:root:SQL: select `id`, `name`, `passwd`, `created_at`, `image`, `admin`, `email` from `users` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:Set current user: m15801021028@163.com
+INFO:root:Response handler...
+INFO:root:Call with arg: {'id': '001526633743922ed51f806d7bc4231abdf715ea1b58f46000'}
+INFO:aiohttp.access:106.120.206.141 [18/May/2018:09:11:44 +0000] "GET /manage/blogs/edit?id=001526633743922ed51f806d7bc4231abdf715ea1b58f46000 HTTP/1.1" 200 6538 "http://www.lxiao.net:8000/blog/001526633743922ed51f806d7bc4231abdf715ea1b58f46000" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
+INFO:root:Request: GET /api/blogs/001526633743922ed51f806d7bc4231abdf715ea1b58f46000
+INFO:root:Check user: GET /api/blogs/001526633743922ed51f806d7bc4231abdf715ea1b58f46000
+INFO:root:SQL: select `id`, `name`, `passwd`, `created_at`, `image`, `admin`, `email` from `users` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:Set current user: m15801021028@163.com
+INFO:root:Response handler...
+INFO:root:Call with arg: {'id': '001526633743922ed51f806d7bc4231abdf715ea1b58f46000'}
+INFO:root:SQL: select `id`, `name`, `user_name`, `created_at`, `content`, `user_image`, `user_id`, `summary` from `blogs` where `id`=?
+INFO:root:Rows returned: 1
+INFO:aiohttp.access:106.120.206.141 [18/May/2018:09:11:45 +0000] "GET /api/blogs/001526633743922ed51f806d7bc4231abdf715ea1b58f46000 HTTP/1.1" 200 3985 "http://www.lxiao.net:8000/manage/blogs/edit?id=001526633743922ed51f806d7bc4231abdf715ea1b58f46000" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
+INFO:root:Request: POST /api/blogs/001526633743922ed51f806d7bc4231abdf715ea1b58f46000
+INFO:root:Check user: POST /api/blogs/001526633743922ed51f806d7bc4231abdf715ea1b58f46000
+INFO:root:SQL: select `id`, `name`, `passwd`, `created_at`, `image`, `admin`, `email` from `users` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:Set current user: m15801021028@163.com
+INFO:root:Response handler...
+INFO:root:Call with arg: {'name': '[转] 深入理解 C/C++ 中的指针（四）', 'request': <Request POST /api/blogs/001526633743922ed51f806d7bc4231abdf715ea1b58f46000 >, 'content': '##C++ 中的引用\nC++ 中不仅有指针的概念，而且还存在一个引用的概念，看下面的代码：\n\n![](https://github.com/LXiao2015/pictures/blob/master/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20180518164907.jpg?raw=true)\n\n\u3000\u3000我开始在接触这个概念的时候，老是弄错。当时这么想的，既然 b 是 a 的引用，那么 &b 应该等于 a 吧?也就是说，在需要使用变量 a 的时候，可以使用 &b 来代替。\n\n\u3000\u3000上面的这种认识是错误的！所谓引用，使用另外一个变量名来代表某一块内存，也就是说 a 和 b 完全是一样，所以任何地方，可以使用 a 的，换成 b 也可以，而不是使用 &b，这就相当于同一个人有不同的名字，但是不管哪个名字，指的都是同一个人。\n\n![](https://mmbiz.qpic.cn/mmbiz_jpg/TufFCFqd0g2gIGUg7lMl7cABgyfklHKZApskmfIGT6Zug2LIrzJReBd7NpHwMvibMw0cTAX53okf3D7nyic3bXFg/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1)\n\n\u3000\u3000新手在刚接触引用的使用，还有一个地方容易出错，就是忘记给引用及时初始化，注意这里的“及时”两个字，C++ 规定，定义一个引用时，必须马上初始化。看下面的代码：\n\n![](https://github.com/LXiao2015/pictures/blob/master/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20180518164913.png?raw=true)\n\n##传值还是传引用\n看下面的伪代码：\n\n![](https://github.com/LXiao2015/pictures/blob/master/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20180518164917.jpg?raw=true)\n\n\u3000\u3000在涉及到利用一个已有初值的变量给另外一个变量赋值时，必须考虑这样的情况。图中变量 a 已经有了初值，然后利用 a 来给 b 赋初值，那么最后改变 b 的值，a 的值会不会受影响呢？这就取决于 b 到底是 a 的副本还是和 a 同时指向同一内存区域，这就是我们常说的赋值时是传值还是传引用。各大语言都是这样规定的，也就是说不局限于 C/C++，同时 Java、C#、php、javascript 等都一样：\n\n\u3000\u3000如果变量类型是基元数据类型（基础数据类型），比如 int、float、bool、char 等小数据类型被称为基元数据类型（primitive data type），那么赋值时传的是值。也就是说，这个时候 b 的值是 a 的拷贝，那么更改 b 不会影响到 a，同理更改 a 也不会影响到 b。\n\n\u3000\u3000但是，如果变量类型是复杂数据类型（complex data type），不如数组、类对象，那么赋值时传的就是引用，这个时候，a 和 b 指向的都是同一块内存区域，那么无论更改 a 或者 b 都会相互影响。\n\n\u3000\u3000让我们来深入地分析下，为什么各大语言都采取这种机制。对于那些基元数据类型，由于数据本身占用的内存空间就小，这样复制起来不仅速度快，即使这样的变量数目很多，总共也不会占多大空间。但是对于复杂数据类型，比如一些类对象，它们包含的属性字段就很多，占用的空间就大，如果赋值时，也是复制数据，那么一个两个对象还好，一旦多一点比如 10 个、100 个，会占很大的内存单元的，这就导致效率的下降。\n\n\u3000\u3000最后，提醒一点，在利用 C++ 中拷贝构造函数复制对象时需要注意，基元数据类型可以直接复制，但是对于引用类型数据，我们需要自己实现引用型数据的真正复制。', 'id': '001526633743922ed51f806d7bc4231abdf715ea1b58f46000', 'summary': 'C++ 中的引用 传值还是传引用'}
+INFO:root:SQL: select `id`, `name`, `user_name`, `created_at`, `content`, `user_image`, `user_id`, `summary` from `blogs` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:SQL: update `blogs` set `name`=?, `user_name`=?, `created_at`=?, `content`=?, `user_image`=?, `user_id`=?, `summary`=? where `id`=?
+INFO:aiohttp.access:106.120.206.141 [18/May/2018:09:11:59 +0000] "POST /api/blogs/001526633743922ed51f806d7bc4231abdf715ea1b58f46000 HTTP/1.1" 200 3983 "http://www.lxiao.net:8000/manage/blogs/edit?id=001526633743922ed51f806d7bc4231abdf715ea1b58f46000" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
+INFO:root:Request: GET /blog/001526633743922ed51f806d7bc4231abdf715ea1b58f46000
+INFO:root:Check user: GET /blog/001526633743922ed51f806d7bc4231abdf715ea1b58f46000
+INFO:root:SQL: select `id`, `name`, `passwd`, `created_at`, `image`, `admin`, `email` from `users` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:Set current user: m15801021028@163.com
+INFO:root:Response handler...
+INFO:root:Call with arg: {'id': '001526633743922ed51f806d7bc4231abdf715ea1b58f46000'}
+INFO:root:SQL: select `id`, `name`, `user_name`, `created_at`, `content`, `user_image`, `user_id`, `summary` from `blogs` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:SQL: select `id`, `user_name`, `created_at`, `user_image`, `user_id`, `content`, `blog_id` from `comments` where blog_id=? order by created_at desc
+INFO:root:Rows returned: 0
+INFO:aiohttp.access:106.120.206.141 [18/May/2018:09:11:59 +0000] "GET /blog/001526633743922ed51f806d7bc4231abdf715ea1b58f46000 HTTP/1.1" 200 9967 "http://www.lxiao.net:8000/manage/blogs/edit?id=001526633743922ed51f806d7bc4231abdf715ea1b58f46000" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
+INFO:root:Request: GET /blog/001526556821030ccf52786546147c2a8bff1c58626db9e000
+INFO:root:Check user: GET /blog/001526556821030ccf52786546147c2a8bff1c58626db9e000
+INFO:root:SQL: select `id`, `name`, `passwd`, `created_at`, `image`, `admin`, `email` from `users` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:Set current user: m15801021028@163.com
+INFO:root:Response handler...
+INFO:root:Call with arg: {'id': '001526556821030ccf52786546147c2a8bff1c58626db9e000'}
+INFO:root:SQL: select `id`, `name`, `user_name`, `created_at`, `content`, `user_image`, `user_id`, `summary` from `blogs` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:SQL: select `id`, `user_name`, `created_at`, `user_image`, `user_id`, `content`, `blog_id` from `comments` where blog_id=? order by created_at desc
+INFO:root:Rows returned: 0
+INFO:aiohttp.access:106.120.206.141 [18/May/2018:09:12:15 +0000] "GET /blog/001526556821030ccf52786546147c2a8bff1c58626db9e000 HTTP/1.1" 200 13604 "http://www.lxiao.net:8000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
+INFO:root:Request: GET /blog/001525919711164b6d2cea4fb824990b5da4573c830c651000
+INFO:root:Check user: GET /blog/001525919711164b6d2cea4fb824990b5da4573c830c651000
+INFO:root:SQL: select `id`, `name`, `passwd`, `created_at`, `image`, `admin`, `email` from `users` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:Set current user: m15801021028@163.com
+INFO:root:Response handler...
+INFO:root:Call with arg: {'id': '001525919711164b6d2cea4fb824990b5da4573c830c651000'}
+INFO:root:SQL: select `id`, `name`, `user_name`, `created_at`, `content`, `user_image`, `user_id`, `summary` from `blogs` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:SQL: select `id`, `user_name`, `created_at`, `user_image`, `user_id`, `content`, `blog_id` from `comments` where blog_id=? order by created_at desc
+INFO:root:Rows returned: 0
+INFO:aiohttp.access:106.120.206.141 [18/May/2018:09:12:27 +0000] "GET /blog/001525919711164b6d2cea4fb824990b5da4573c830c651000 HTTP/1.1" 200 10704 "http://www.lxiao.net:8000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
+INFO:root:Request: GET /
+INFO:root:Check user: GET /
+INFO:root:SQL: select `id`, `name`, `passwd`, `created_at`, `image`, `admin`, `email` from `users` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:Set current user: m15801021028@163.com
+INFO:root:Response handler...
+INFO:root:Call with arg: {'request': <Request GET / >, 'page': '2'}
+INFO:aiohttp.access:106.120.206.141 [18/May/2018:09:12:41 +0000] "GET /?page=2 HTTP/1.1" 200 5577 "http://www.lxiao.net:8000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
+INFO:root:Request: GET /api/blogs
+INFO:root:Check user: GET /api/blogs
+INFO:root:SQL: select `id`, `name`, `passwd`, `created_at`, `image`, `admin`, `email` from `users` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:Set current user: m15801021028@163.com
+INFO:root:Response handler...
+INFO:root:Call with arg: {'page': '2'}
+INFO:root:SQL: select count(id) _num_ from `blogs`
+INFO:root:Rows returned: 1
+INFO:root:SQL: select `id`, `name`, `user_name`, `created_at`, `content`, `user_image`, `user_id`, `summary` from `blogs` order by created_at desc limit ?, ?
+INFO:root:Rows returned: 5
+INFO:aiohttp.access:106.120.206.141 [18/May/2018:09:12:41 +0000] "GET /api/blogs?page=2 HTTP/1.1" 200 16803 "http://www.lxiao.net:8000/?page=2" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
+INFO:root:Request: GET /blog/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000
+INFO:root:Check user: GET /blog/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000
+INFO:root:SQL: select `id`, `name`, `passwd`, `created_at`, `image`, `admin`, `email` from `users` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:Set current user: m15801021028@163.com
+INFO:root:Response handler...
+INFO:root:Call with arg: {'id': '0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000'}
+INFO:root:SQL: select `id`, `name`, `user_name`, `created_at`, `content`, `user_image`, `user_id`, `summary` from `blogs` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:SQL: select `id`, `user_name`, `created_at`, `user_image`, `user_id`, `content`, `blog_id` from `comments` where blog_id=? order by created_at desc
+INFO:root:Rows returned: 0
+INFO:aiohttp.access:106.120.206.141 [18/May/2018:09:12:42 +0000] "GET /blog/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000 HTTP/1.1" 200 10200 "http://www.lxiao.net:8000/?page=2" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
+INFO:root:Request: GET /manage/blogs/edit
+INFO:root:Check user: GET /manage/blogs/edit
+INFO:root:SQL: select `id`, `name`, `passwd`, `created_at`, `image`, `admin`, `email` from `users` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:Set current user: m15801021028@163.com
+INFO:root:Response handler...
+INFO:root:Call with arg: {'id': '0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000'}
+INFO:aiohttp.access:106.120.206.141 [18/May/2018:09:12:53 +0000] "GET /manage/blogs/edit?id=0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000 HTTP/1.1" 200 6538 "http://www.lxiao.net:8000/blog/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
+INFO:root:Request: GET /api/blogs/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000
+INFO:root:Check user: GET /api/blogs/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000
+INFO:root:SQL: select `id`, `name`, `passwd`, `created_at`, `image`, `admin`, `email` from `users` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:Set current user: m15801021028@163.com
+INFO:root:Response handler...
+INFO:root:Call with arg: {'id': '0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000'}
+INFO:root:SQL: select `id`, `name`, `user_name`, `created_at`, `content`, `user_image`, `user_id`, `summary` from `blogs` where `id`=?
+INFO:root:Rows returned: 1
+INFO:aiohttp.access:106.120.206.141 [18/May/2018:09:12:53 +0000] "GET /api/blogs/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000 HTTP/1.1" 200 3931 "http://www.lxiao.net:8000/manage/blogs/edit?id=0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
+INFO:root:Request: POST /api/blogs/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000
+INFO:root:Check user: POST /api/blogs/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000
+INFO:root:SQL: select `id`, `name`, `passwd`, `created_at`, `image`, `admin`, `email` from `users` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:Set current user: m15801021028@163.com
+INFO:root:Response handler...
+INFO:root:Call with arg: {'name': '[2018.4.19] 爱奇艺编程题 Q3 - 牛牛分点心', 'request': <Request POST /api/blogs/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000 >, 'content': '当时时间紧只通过了 10%，后来发现还有很多可以优化的地方，顺便总结一下淡忘了的知识点。\n\n题目大概是这样：\n```\n牛牛分点心，酸甜苦三种味道，每盒装 3 个。要求：\n每盒至少一个甜的；\n某些苦的和某些酸的放在同一盒中会变成黑暗料理，牛牛要杜绝这种黑暗料理。\n牛牛想知道最多可以装多少点心盒。\n```\n输入形式：\n```\n4 2    // 点心数量 N, 不能匹配的对数 M\nT K K S    // N 个点心\n2 4    // 序号 2 和 序号 4 的点心会形成黑暗料理, 下面的 M-1 行同理\n3 4\n```\n输出形式：\n```\n1    // 最多可以组成点心盒的盒数\n```\n\n思路很简单：\n\n1、读入 N 和 M；\n\n2、定义三个集合 t、k、s，分别用来存储甜苦酸三种类型的点心的下标（注意题目是从 1 开始，我存的时候是从 0 开始）；\n\n3、定义 N × N 的 vector，标记会形成黑暗料理的点心对（同样注意下标）；\n\n4、问题的关键在于求最多能组成多少对酸和苦（一个甜的情况）maxPair，然后用剩下的酸和苦去和甜组成一盒（两个甜的情况），最后加上三个甜的盒数；\n\n5、开始 findPair 函数，遍历 k 和 s，可以形成一对的，就加入，然后从集合中删掉再递归，递归完后记得再加回来。\n\n6、递归的返回条件是无法再找到一对匹配的酸苦点心。\n\n7、具体实现和优化的部分结合代码来讲。\n\n代码如下：\n```C++\n#include <iostream>  \n#include <vector>  \n#include <set>\nusing namespace std;  \n\nint maxPair = 0;\n\nvoid findPair(vector<vector<bool> > &dark, set<char> k, set<char> s, int curPair) {\n\tbool found = false;\n\t\n\tset<char>::iterator it1 = k.begin();\n\twhile(it1 != k.end()) {\n\t\tset<char>::iterator it2 = s.begin();\n\t\twhile(it2 != s.end()) {\n\t\t\tif(dark[*it1][*it2] != true) {\n\t\t\t\tdark[*it1][*it2] = true;\n\t\t\t\tint tmp1 = *it1;\n\t\t\t\tint tmp2 = *it2;\n//\t\t\t\tcout<<tmp1+1<<" "<<tmp2+1<<endl;\n\n\t\t\t\tk.erase(it1++);\n\t\t\t\ts.erase(it2++);\n\t\t\t\tfindPair(dark, k, s, curPair+1);\n\t\t\t\tk.insert(tmp1);\n\t\t\t\ts.insert(tmp2);\n\t\t\t\t--it1;\n\t\t\t\tfound = true;\n\t\t\t}\n\t\t\telse ++it2;\n\t\t}\n\t\t++it1;\n\t}\n\t\n\tif(found == false) {\n\t\tmaxPair = maxPair>curPair? maxPair: curPair;\n\t}\n}\n\nint main()  \n{  \n    int N, M;\n    cin>>N>>M;\n    \n    set<char> t;\n    set<char> k;\n    set<char> s;\n    \n    char cur;\n    for(int i = 0; i < N; i++) {\n    \tcin>>cur;\n    \tswitch(cur) {\n    \t\tcase \'T\': t.insert(i); break;\n    \t\tcase \'K\': k.insert(i); break;\n    \t\tcase \'S\': s.insert(i); break;\n    \t\tdefault: break;\n\t\t}\n\t}\n\n\tvector<vector<bool> > dark(N, vector<bool>(N, false));\n\tint x, y;\n\tfor(int i = 0; i < M; i++) {\n\t\tcin>>x>>y;\n\t\tdark[x-1][y-1] = true;\n\t\tdark[y-1][x-1] = true;\n\t}\n\tfindPair(dark, k, s, 0);\n\n\tif(t.size() < maxPair) {\n\t\tcout<<t.size()<<endl;\n\t\treturn 0;\n\t}\n\t\n\tint leftSweet = t.size() - maxPair;\n\tint leftBitterAndSour = k.size() + s.size() - maxPair;\n\t\n\tint twoSweet = min(leftSweet/2, leftBitterAndSour);\n\tmaxPair += twoSweet;\n\tleftSweet -= twoSweet;\n\t\n\tif(leftSweet <= 2) {\n\t\tcout<<maxPair<<endl;\n\t\treturn 0;\n\t}\n\tmaxPair += leftSweet/3;\n\t\n\tcout<<maxPair<<endl;\n}  \n```', 'id': '0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000', 'summary': '酸甜苦三种点心装盒问题。'}
+INFO:root:SQL: select `id`, `name`, `user_name`, `created_at`, `content`, `user_image`, `user_id`, `summary` from `blogs` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:SQL: update `blogs` set `name`=?, `user_name`=?, `created_at`=?, `content`=?, `user_image`=?, `user_id`=?, `summary`=? where `id`=?
+INFO:aiohttp.access:106.120.206.141 [18/May/2018:09:13:01 +0000] "POST /api/blogs/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000 HTTP/1.1" 200 3934 "http://www.lxiao.net:8000/manage/blogs/edit?id=0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
+INFO:root:Request: GET /blog/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000
+INFO:root:Check user: GET /blog/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000
+INFO:root:SQL: select `id`, `name`, `passwd`, `created_at`, `image`, `admin`, `email` from `users` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:Set current user: m15801021028@163.com
+INFO:root:Response handler...
+INFO:root:Call with arg: {'id': '0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000'}
+INFO:root:SQL: select `id`, `name`, `user_name`, `created_at`, `content`, `user_image`, `user_id`, `summary` from `blogs` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:SQL: select `id`, `user_name`, `created_at`, `user_image`, `user_id`, `content`, `blog_id` from `comments` where blog_id=? order by created_at desc
+INFO:root:Rows returned: 0
+INFO:aiohttp.access:106.120.206.141 [18/May/2018:09:13:01 +0000] "GET /blog/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000 HTTP/1.1" 200 21452 "http://www.lxiao.net:8000/manage/blogs/edit?id=0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
+INFO:root:Found model: User (table: users)
+INFO:root:  Found mapping: name ==> <StringField, varchar(100):None>
+INFO:root:  Found mapping: id ==> <IntegerField, bigint:None>
+INFO:root:Found model: User (table: users)
+INFO:root:  Found mapping: name ==> <StringField, varchar(100):None>
+INFO:root:  Found mapping: id ==> <IntegerField, bigint:None>
+INFO:root:Found model: User (table: users)
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: admin ==> <BooleanField, boolean:None>
+INFO:root:  Found mapping: passwd ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: email ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: image ==> <StringField, varchar(500):None>
+INFO:root:Found model: Blog (table: blogs)
+INFO:root:  Found mapping: user_name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: user_id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: content ==> <TextField, text:None>
+INFO:root:  Found mapping: name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: user_image ==> <StringField, varchar(500):None>
+INFO:root:  Found mapping: summary ==> <StringField, varchar(200):None>
+INFO:root:  Found mapping: id ==> <StringField, varchat(50):None>
+INFO:root:Found model: Comment (table: comments)
+INFO:root:  Found mapping: user_name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: user_id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: blog_id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: content ==> <TextField, text:None>
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: user_image ==> <StringField, varchar(500):None>
+INFO:root:  Found mapping: id ==> <StringField, varchar(50):None>
+INFO:root:Found model: User (table: users)
+INFO:root:Create database connection pool...
+INFO:root:  Found mapping: email ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: admin ==> <BooleanField, boolean:None>
+INFO:root:  Found mapping: name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: passwd ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: image ==> <StringField, varchar(500):None>
+INFO:root:Found model: Blog (table: blogs)
+INFO:root:  Found mapping: content ==> <TextField, text:None>
+INFO:root:  Found mapping: user_image ==> <StringField, varchar(500):None>
+INFO:root:  Found mapping: id ==> <StringField, varchat(50):None>
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: user_id ==> <StringField, varchar(50):None>
+INFO:root:Init jinja2...
+INFO:root:Set jinja2 template path: /home/admin/webapp/www/templates
+INFO:root:add route GET /api/blogs => api_blogs(page)
+INFO:root:add route GET /api/comments => api_comments(page)
+INFO:root:  Found mapping: name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: user_name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: summary ==> <StringField, varchar(200):None>
+INFO:root:Found model: Comment (table: comments)
+INFO:root:  Found mapping: user_image ==> <StringField, varchar(500):None>
+INFO:root:  Found mapping: id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: blog_id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: content ==> <TextField, text:None>
+INFO:root:  Found mapping: user_name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: user_id ==> <StringField, varchar(50):None>
+INFO:root:Create database connection pool...
+INFO:root:add route POST /api/blogs => api_create_blog(request, name, summary, content)
+INFO:root:add route POST /api/blogs/{id}/comments => api_create_comment(id, request, content)
+INFO:root:add route POST /api/blogs/{id}/delete => api_delete_blog(id, request)
+INFO:root:add route POST /api/comments/{id}/delete => api_delete_comment(id, request)
+INFO:root:add route GET /api/blogs/{id} => api_get_blog(id)
+INFO:root:add route GET /api/users => api_get_users(page)
+INFO:root:add route POST /api/users => api_register_user(email, name, passwd)
+INFO:root:add route POST /api/blogs/{id} => api_update_blog(id, request, name, summary, content)
+INFO:root:add route POST /api/authenticate => authenticate(email, passwd)
+INFO:root:add route GET /blog/{id} => get_blog(id)
+INFO:root:add route GET / => index(request, page)
+INFO:root:Init jinja2...
+INFO:root:Set jinja2 template path: /home/admin/webapp/www/templates
+INFO:root:add route GET /api/blogs => api_blogs(page)
+INFO:root:add route GET /manage/ => manage()
+INFO:root:add route GET /manage/blogs => manage_blogs(page)
+INFO:root:add route GET /api/comments => api_comments(page)
+INFO:root:add route POST /api/blogs => api_create_blog(request, name, summary, content)
+INFO:root:add route GET /manage/comments => manage_comments(page)
+INFO:root:add route GET /manage/blogs/create => manage_create_blogs()
+INFO:root:add route GET /manage/blogs/edit => manage_edit_blog(id)
+INFO:root:add route GET /manage/users => manage_users(page)
+INFO:root:add route POST /api/blogs/{id}/comments => api_create_comment(id, request, content)
+INFO:root:add route POST /api/blogs/{id}/delete => api_delete_blog(id, request)
+INFO:root:add route POST /api/comments/{id}/delete => api_delete_comment(id, request)
+INFO:root:add route GET /register => register()
+INFO:root:add route GET /signin => signin()
+INFO:root:add route GET /signout => signout(request)
+INFO:root:add route GET /api/blogs/{id} => api_get_blog(id)
+INFO:root:add route GET /api/users => api_get_users(page)
+INFO:root:add static /static/ => /home/admin/webapp/www/static
+INFO:root:Server started at http://60.205.221.43:80...
+INFO:root:add route POST /api/users => api_register_user(email, name, passwd)
+INFO:root:add route POST /api/blogs/{id} => api_update_blog(id, request, name, summary, content)
+INFO:root:add route POST /api/authenticate => authenticate(email, passwd)
+INFO:root:add route GET /blog/{id} => get_blog(id)
+INFO:root:add route GET / => index(request, page)
+INFO:root:add route GET /manage/ => manage()
+INFO:root:add route GET /manage/blogs => manage_blogs(page)
+INFO:root:add route GET /manage/comments => manage_comments(page)
+INFO:root:add route GET /manage/blogs/create => manage_create_blogs()
+INFO:root:add route GET /manage/blogs/edit => manage_edit_blog(id)
+INFO:root:add route GET /manage/users => manage_users(page)
+INFO:root:add route GET /register => register()
+INFO:root:add route GET /signin => signin()
+INFO:root:add route GET /signout => signout(request)
+INFO:root:add static /static/ => /home/admin/webapp/www/static
+INFO:root:Server started at http://60.205.221.43:80...
+INFO:root:Request: GET /blog/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000
+INFO:root:Check user: GET /blog/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000
+INFO:root:SQL: select `id`, `email`, `created_at`, `admin`, `name`, `passwd`, `image` from `users` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:Set current user: m15801021028@163.com
+INFO:root:Response handler...
+INFO:root:Call with arg: {'id': '0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000'}
+INFO:root:SQL: select `id`, `content`, `user_image`, `created_at`, `user_id`, `name`, `user_name`, `summary` from `blogs` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:SQL: select `id`, `user_image`, `created_at`, `blog_id`, `content`, `user_name`, `user_id` from `comments` where blog_id=? order by created_at desc
+INFO:root:Rows returned: 0
+INFO:aiohttp.access:106.120.206.141 [18/May/2018:09:14:06 +0000] "GET /blog/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000 HTTP/1.1" 200 21453 "http://www.lxiao.net:8000/manage/blogs/edit?id=0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
+INFO:root:Request: GET /static/css/pygments-css/autumn.css
+INFO:root:Check user: GET /static/css/pygments-css/autumn.css
+INFO:root:SQL: select `id`, `email`, `created_at`, `admin`, `name`, `passwd`, `image` from `users` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:Set current user: m15801021028@163.com
+INFO:root:Response handler...
+INFO:aiohttp.access:106.120.206.141 [18/May/2018:09:14:06 +0000] "GET /static/css/pygments-css/autumn.css HTTP/1.1" 200 4288 "http://www.lxiao.net:8000/blog/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
+INFO:root:Found model: User (table: users)
+INFO:root:  Found mapping: id ==> <IntegerField, bigint:None>
+INFO:root:  Found mapping: name ==> <StringField, varchar(100):None>
+INFO:root:Found model: User (table: users)
+INFO:root:  Found mapping: id ==> <IntegerField, bigint:None>
+INFO:root:  Found mapping: name ==> <StringField, varchar(100):None>
+INFO:root:Found model: User (table: users)
+INFO:root:  Found mapping: admin ==> <BooleanField, boolean:None>
+INFO:root:  Found mapping: image ==> <StringField, varchar(500):None>
+INFO:root:  Found mapping: passwd ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: email ==> <StringField, varchar(50):None>
+INFO:root:Found model: Blog (table: blogs)
+INFO:root:  Found mapping: content ==> <TextField, text:None>
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: user_name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: user_image ==> <StringField, varchar(500):None>
+INFO:root:  Found mapping: summary ==> <StringField, varchar(200):None>
+INFO:root:  Found mapping: name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: id ==> <StringField, varchat(50):None>
+INFO:root:  Found mapping: user_id ==> <StringField, varchar(50):None>
+INFO:root:Found model: Comment (table: comments)
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: user_name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: user_image ==> <StringField, varchar(500):None>
+INFO:root:  Found mapping: content ==> <TextField, text:None>
+INFO:root:  Found mapping: blog_id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: user_id ==> <StringField, varchar(50):None>
+INFO:root:Create database connection pool...
+INFO:root:Init jinja2...
+INFO:root:Set jinja2 template path: /home/admin/webapp/www/templates
+INFO:root:add route GET /api/blogs => api_blogs(page)
+INFO:root:add route GET /api/comments => api_comments(page)
+INFO:root:add route POST /api/blogs => api_create_blog(request, name, summary, content)
+INFO:root:add route POST /api/blogs/{id}/comments => api_create_comment(id, request, content)
+INFO:root:add route POST /api/blogs/{id}/delete => api_delete_blog(id, request)
+INFO:root:add route POST /api/comments/{id}/delete => api_delete_comment(id, request)
+INFO:root:add route GET /api/blogs/{id} => api_get_blog(id)
+INFO:root:add route GET /api/users => api_get_users(page)
+INFO:root:add route POST /api/users => api_register_user(email, name, passwd)
+INFO:root:add route POST /api/blogs/{id} => api_update_blog(id, request, name, summary, content)
+INFO:root:add route POST /api/authenticate => authenticate(email, passwd)
+INFO:root:add route GET /blog/{id} => get_blog(id)
+INFO:root:add route GET / => index(request, page)
+INFO:root:add route GET /manage/ => manage()
+INFO:root:add route GET /manage/blogs => manage_blogs(page)
+INFO:root:add route GET /manage/comments => manage_comments(page)
+INFO:root:add route GET /manage/blogs/create => manage_create_blogs()
+INFO:root:add route GET /manage/blogs/edit => manage_edit_blog(id)
+INFO:root:add route GET /manage/users => manage_users(page)
+INFO:root:add route GET /register => register()
+INFO:root:add route GET /signin => signin()
+INFO:root:add route GET /signout => signout(request)
+INFO:root:add static /static/ => /home/admin/webapp/www/static
+INFO:root:Server started at http://60.205.221.43:80...
+INFO:root:Found model: User (table: users)
+INFO:root:  Found mapping: id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: admin ==> <BooleanField, boolean:None>
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: passwd ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: image ==> <StringField, varchar(500):None>
+INFO:root:  Found mapping: email ==> <StringField, varchar(50):None>
+INFO:root:Found model: Blog (table: blogs)
+INFO:root:  Found mapping: id ==> <StringField, varchat(50):None>
+INFO:root:  Found mapping: name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: content ==> <TextField, text:None>
+INFO:root:  Found mapping: summary ==> <StringField, varchar(200):None>
+INFO:root:  Found mapping: user_name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: user_id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: user_image ==> <StringField, varchar(500):None>
+INFO:root:Found model: Comment (table: comments)
+INFO:root:  Found mapping: id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: blog_id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: content ==> <TextField, text:None>
+INFO:root:  Found mapping: user_name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: user_id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: user_image ==> <StringField, varchar(500):None>
+INFO:root:Create database connection pool...
+INFO:root:Init jinja2...
+INFO:root:Set jinja2 template path: /home/admin/webapp/www/templates
+INFO:root:add route GET /api/blogs => api_blogs(page)
+INFO:root:add route GET /api/comments => api_comments(page)
+INFO:root:add route POST /api/blogs => api_create_blog(request, name, summary, content)
+INFO:root:add route POST /api/blogs/{id}/comments => api_create_comment(id, request, content)
+INFO:root:add route POST /api/blogs/{id}/delete => api_delete_blog(id, request)
+INFO:root:add route POST /api/comments/{id}/delete => api_delete_comment(id, request)
+INFO:root:add route GET /api/blogs/{id} => api_get_blog(id)
+INFO:root:add route GET /api/users => api_get_users(page)
+INFO:root:add route POST /api/users => api_register_user(email, name, passwd)
+INFO:root:add route POST /api/blogs/{id} => api_update_blog(id, request, name, summary, content)
+INFO:root:add route POST /api/authenticate => authenticate(email, passwd)
+INFO:root:add route GET /blog/{id} => get_blog(id)
+INFO:root:add route GET / => index(request, page)
+INFO:root:add route GET /manage/ => manage()
+INFO:root:add route GET /manage/blogs => manage_blogs(page)
+INFO:root:add route GET /manage/comments => manage_comments(page)
+INFO:root:add route GET /manage/blogs/create => manage_create_blogs()
+INFO:root:add route GET /manage/blogs/edit => manage_edit_blog(id)
+INFO:root:add route GET /manage/users => manage_users(page)
+INFO:root:add route GET /register => register()
+INFO:root:add route GET /signin => signin()
+INFO:root:add route GET /signout => signout(request)
+INFO:root:add static /static/ => /home/admin/webapp/www/static
+INFO:root:Server started at http://60.205.221.43:80...
+INFO:root:Request: GET /blog/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000
+INFO:root:Check user: GET /blog/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000
+INFO:root:SQL: select `id`, `admin`, `image`, `passwd`, `created_at`, `name`, `email` from `users` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:Set current user: m15801021028@163.com
+INFO:root:Response handler...
+INFO:root:Call with arg: {'id': '0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000'}
+INFO:root:SQL: select `id`, `content`, `created_at`, `user_name`, `user_image`, `summary`, `name`, `user_id` from `blogs` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:SQL: select `id`, `created_at`, `user_name`, `user_image`, `content`, `blog_id`, `user_id` from `comments` where blog_id=? order by created_at desc
+INFO:root:Rows returned: 0
+INFO:aiohttp.access:106.120.206.141 [18/May/2018:09:14:46 +0000] "GET /blog/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000 HTTP/1.1" 200 21449 "http://www.lxiao.net:8000/manage/blogs/edit?id=0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
+INFO:root:Request: GET /static/css/pygments-css/bw.css
+INFO:root:Check user: GET /static/css/pygments-css/bw.css
+INFO:root:SQL: select `id`, `admin`, `image`, `passwd`, `created_at`, `name`, `email` from `users` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:Set current user: m15801021028@163.com
+INFO:root:Response handler...
+INFO:aiohttp.access:106.120.206.141 [18/May/2018:09:14:46 +0000] "GET /static/css/pygments-css/bw.css HTTP/1.1" 200 2597 "http://www.lxiao.net:8000/blog/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
+INFO:root:Found model: User (table: users)
+INFO:root:Found model: User (table: users)
+INFO:root:  Found mapping: name ==> <StringField, varchar(100):None>
+INFO:root:  Found mapping: id ==> <IntegerField, bigint:None>
+INFO:root:  Found mapping: name ==> <StringField, varchar(100):None>
+INFO:root:  Found mapping: id ==> <IntegerField, bigint:None>
+INFO:root:Found model: User (table: users)
+INFO:root:  Found mapping: name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: image ==> <StringField, varchar(500):None>
+INFO:root:  Found mapping: id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: passwd ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: admin ==> <BooleanField, boolean:None>
+INFO:root:  Found mapping: email ==> <StringField, varchar(50):None>
+INFO:root:Found model: Blog (table: blogs)
+INFO:root:  Found mapping: content ==> <TextField, text:None>
+INFO:root:  Found mapping: name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: id ==> <StringField, varchat(50):None>
+INFO:root:  Found mapping: summary ==> <StringField, varchar(200):None>
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: user_image ==> <StringField, varchar(500):None>
+INFO:root:  Found mapping: user_id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: user_name ==> <StringField, varchar(50):None>
+INFO:root:Found model: Comment (table: comments)
+INFO:root:  Found mapping: content ==> <TextField, text:None>
+INFO:root:  Found mapping: blog_id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: user_id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: user_image ==> <StringField, varchar(500):None>
+INFO:root:  Found mapping: user_name ==> <StringField, varchar(50):None>
+INFO:root:Create database connection pool...
+INFO:root:Init jinja2...
+INFO:root:Set jinja2 template path: /home/admin/webapp/www/templates
+INFO:root:add route GET /api/blogs => api_blogs(page)
+INFO:root:add route GET /api/comments => api_comments(page)
+INFO:root:add route POST /api/blogs => api_create_blog(request, name, summary, content)
+INFO:root:add route POST /api/blogs/{id}/comments => api_create_comment(id, request, content)
+INFO:root:add route POST /api/blogs/{id}/delete => api_delete_blog(id, request)
+INFO:root:add route POST /api/comments/{id}/delete => api_delete_comment(id, request)
+INFO:root:add route GET /api/blogs/{id} => api_get_blog(id)
+INFO:root:add route GET /api/users => api_get_users(page)
+INFO:root:add route POST /api/users => api_register_user(email, name, passwd)
+INFO:root:add route POST /api/blogs/{id} => api_update_blog(id, request, name, summary, content)
+INFO:root:add route POST /api/authenticate => authenticate(email, passwd)
+INFO:root:add route GET /blog/{id} => get_blog(id)
+INFO:root:add route GET / => index(request, page)
+INFO:root:add route GET /manage/ => manage()
+INFO:root:add route GET /manage/blogs => manage_blogs(page)
+INFO:root:add route GET /manage/comments => manage_comments(page)
+INFO:root:add route GET /manage/blogs/create => manage_create_blogs()
+INFO:root:add route GET /manage/blogs/edit => manage_edit_blog(id)
+INFO:root:add route GET /manage/users => manage_users(page)
+INFO:root:add route GET /register => register()
+INFO:root:add route GET /signin => signin()
+INFO:root:add route GET /signout => signout(request)
+INFO:root:add static /static/ => /home/admin/webapp/www/static
+INFO:root:Server started at http://60.205.221.43:80...
+INFO:root:Found model: User (table: users)
+INFO:root:  Found mapping: passwd ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: image ==> <StringField, varchar(500):None>
+INFO:root:  Found mapping: name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: email ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: admin ==> <BooleanField, boolean:None>
+INFO:root:Found model: Blog (table: blogs)
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: user_image ==> <StringField, varchar(500):None>
+INFO:root:  Found mapping: name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: summary ==> <StringField, varchar(200):None>
+INFO:root:  Found mapping: content ==> <TextField, text:None>
+INFO:root:  Found mapping: id ==> <StringField, varchat(50):None>
+INFO:root:  Found mapping: user_id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: user_name ==> <StringField, varchar(50):None>
+INFO:root:Found model: Comment (table: comments)
+INFO:root:  Found mapping: user_id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: user_image ==> <StringField, varchar(500):None>
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: blog_id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: content ==> <TextField, text:None>
+INFO:root:  Found mapping: id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: user_name ==> <StringField, varchar(50):None>
+INFO:root:Create database connection pool...
+INFO:root:Init jinja2...
+INFO:root:Set jinja2 template path: /home/admin/webapp/www/templates
+INFO:root:add route GET /api/blogs => api_blogs(page)
+INFO:root:add route GET /api/comments => api_comments(page)
+INFO:root:add route POST /api/blogs => api_create_blog(request, name, summary, content)
+INFO:root:add route POST /api/blogs/{id}/comments => api_create_comment(id, request, content)
+INFO:root:add route POST /api/blogs/{id}/delete => api_delete_blog(id, request)
+INFO:root:add route POST /api/comments/{id}/delete => api_delete_comment(id, request)
+INFO:root:add route GET /api/blogs/{id} => api_get_blog(id)
+INFO:root:add route GET /api/users => api_get_users(page)
+INFO:root:add route POST /api/users => api_register_user(email, name, passwd)
+INFO:root:add route POST /api/blogs/{id} => api_update_blog(id, request, name, summary, content)
+INFO:root:add route POST /api/authenticate => authenticate(email, passwd)
+INFO:root:add route GET /blog/{id} => get_blog(id)
+INFO:root:add route GET / => index(request, page)
+INFO:root:add route GET /manage/ => manage()
+INFO:root:add route GET /manage/blogs => manage_blogs(page)
+INFO:root:add route GET /manage/comments => manage_comments(page)
+INFO:root:add route GET /manage/blogs/create => manage_create_blogs()
+INFO:root:add route GET /manage/blogs/edit => manage_edit_blog(id)
+INFO:root:add route GET /manage/users => manage_users(page)
+INFO:root:add route GET /register => register()
+INFO:root:add route GET /signin => signin()
+INFO:root:add route GET /signout => signout(request)
+INFO:root:add static /static/ => /home/admin/webapp/www/static
+INFO:root:Server started at http://60.205.221.43:80...
+INFO:root:Request: GET /blog/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000
+INFO:root:Check user: GET /blog/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000
+INFO:root:SQL: select `id`, `name`, `image`, `passwd`, `created_at`, `admin`, `email` from `users` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:Set current user: m15801021028@163.com
+INFO:root:Response handler...
+INFO:root:Call with arg: {'id': '0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000'}
+INFO:root:SQL: select `id`, `content`, `name`, `summary`, `created_at`, `user_image`, `user_id`, `user_name` from `blogs` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:SQL: select `id`, `content`, `blog_id`, `user_id`, `created_at`, `user_image`, `user_name` from `comments` where blog_id=? order by created_at desc
+INFO:root:Rows returned: 0
+INFO:aiohttp.access:106.120.206.141 [18/May/2018:09:15:16 +0000] "GET /blog/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000 HTTP/1.1" 200 21455 "http://www.lxiao.net:8000/manage/blogs/edit?id=0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
+INFO:root:Request: GET /static/css/pygments-css/colorful.css
+INFO:root:Check user: GET /static/css/pygments-css/colorful.css
+INFO:root:SQL: select `id`, `name`, `image`, `passwd`, `created_at`, `admin`, `email` from `users` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:Set current user: m15801021028@163.com
+INFO:root:Response handler...
+INFO:aiohttp.access:106.120.206.141 [18/May/2018:09:15:16 +0000] "GET /static/css/pygments-css/colorful.css HTTP/1.1" 200 4932 "http://www.lxiao.net:8000/blog/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
+INFO:root:Found model: User (table: users)
+INFO:root:  Found mapping: name ==> <StringField, varchar(100):None>
+INFO:root:  Found mapping: id ==> <IntegerField, bigint:None>
+INFO:root:Found model: User (table: users)
+INFO:root:  Found mapping: id ==> <IntegerField, bigint:None>
+INFO:root:  Found mapping: name ==> <StringField, varchar(100):None>
+INFO:root:Found model: User (table: users)
+INFO:root:  Found mapping: id ==> <StringField, varchar(50):None>
+INFO:root:Found model: User (table: users)
+INFO:root:  Found mapping: image ==> <StringField, varchar(500):None>
+INFO:root:  Found mapping: name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: admin ==> <BooleanField, boolean:None>
+INFO:root:  Found mapping: email ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: admin ==> <BooleanField, boolean:None>
+INFO:root:  Found mapping: image ==> <StringField, varchar(500):None>
+INFO:root:  Found mapping: passwd ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:Found model: Blog (table: blogs)
+INFO:root:  Found mapping: id ==> <StringField, varchat(50):None>
+INFO:root:  Found mapping: content ==> <TextField, text:None>
+INFO:root:  Found mapping: user_image ==> <StringField, varchar(500):None>
+INFO:root:  Found mapping: passwd ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: email ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: id ==> <StringField, varchar(50):None>
+INFO:root:Found model: Blog (table: blogs)
+INFO:root:  Found mapping: content ==> <TextField, text:None>
+INFO:root:  Found mapping: name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: user_name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: user_id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: summary ==> <StringField, varchar(200):None>
+INFO:root:  Found mapping: user_image ==> <StringField, varchar(500):None>
+INFO:root:  Found mapping: name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: summary ==> <StringField, varchar(200):None>
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: user_name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: user_id ==> <StringField, varchar(50):None>
+INFO:root:Found model: Comment (table: comments)
+INFO:root:  Found mapping: id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: content ==> <TextField, text:None>
+INFO:root:  Found mapping: blog_id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: user_image ==> <StringField, varchar(500):None>
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: user_name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: user_id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: id ==> <StringField, varchat(50):None>
+INFO:root:Found model: Comment (table: comments)
+INFO:root:  Found mapping: content ==> <TextField, text:None>
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: user_name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: user_id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: blog_id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: user_image ==> <StringField, varchar(500):None>
+INFO:root:  Found mapping: id ==> <StringField, varchar(50):None>
+INFO:root:Create database connection pool...
+INFO:root:Create database connection pool...
+INFO:root:Init jinja2...
+INFO:root:Set jinja2 template path: /home/admin/webapp/www/templates
+INFO:root:add route GET /api/blogs => api_blogs(page)
+INFO:root:Init jinja2...
+INFO:root:Set jinja2 template path: /home/admin/webapp/www/templates
+INFO:root:add route GET /api/blogs => api_blogs(page)
+INFO:root:add route GET /api/comments => api_comments(page)
+INFO:root:add route POST /api/blogs => api_create_blog(request, name, summary, content)
+INFO:root:add route POST /api/blogs/{id}/comments => api_create_comment(id, request, content)
+INFO:root:add route GET /api/comments => api_comments(page)
+INFO:root:add route POST /api/blogs => api_create_blog(request, name, summary, content)
+INFO:root:add route POST /api/blogs/{id}/comments => api_create_comment(id, request, content)
+INFO:root:add route POST /api/blogs/{id}/delete => api_delete_blog(id, request)
+INFO:root:add route POST /api/comments/{id}/delete => api_delete_comment(id, request)
+INFO:root:add route POST /api/blogs/{id}/delete => api_delete_blog(id, request)
+INFO:root:add route POST /api/comments/{id}/delete => api_delete_comment(id, request)
+INFO:root:add route GET /api/blogs/{id} => api_get_blog(id)
+INFO:root:add route GET /api/users => api_get_users(page)
+INFO:root:add route POST /api/users => api_register_user(email, name, passwd)
+INFO:root:add route GET /api/blogs/{id} => api_get_blog(id)
+INFO:root:add route GET /api/users => api_get_users(page)
+INFO:root:add route POST /api/users => api_register_user(email, name, passwd)
+INFO:root:add route POST /api/blogs/{id} => api_update_blog(id, request, name, summary, content)
+INFO:root:add route POST /api/authenticate => authenticate(email, passwd)
+INFO:root:add route POST /api/blogs/{id} => api_update_blog(id, request, name, summary, content)
+INFO:root:add route POST /api/authenticate => authenticate(email, passwd)
+INFO:root:add route GET /blog/{id} => get_blog(id)
+INFO:root:add route GET / => index(request, page)
+INFO:root:add route GET /manage/ => manage()
+INFO:root:add route GET /manage/blogs => manage_blogs(page)
+INFO:root:add route GET /blog/{id} => get_blog(id)
+INFO:root:add route GET / => index(request, page)
+INFO:root:add route GET /manage/ => manage()
+INFO:root:add route GET /manage/comments => manage_comments(page)
+INFO:root:add route GET /manage/blogs/create => manage_create_blogs()
+INFO:root:add route GET /manage/blogs/edit => manage_edit_blog(id)
+INFO:root:add route GET /manage/users => manage_users(page)
+INFO:root:add route GET /manage/blogs => manage_blogs(page)
+INFO:root:add route GET /manage/comments => manage_comments(page)
+INFO:root:add route GET /manage/blogs/create => manage_create_blogs()
+INFO:root:add route GET /manage/blogs/edit => manage_edit_blog(id)
+INFO:root:add route GET /manage/users => manage_users(page)
+INFO:root:add route GET /register => register()
+INFO:root:add route GET /signin => signin()
+INFO:root:add route GET /signout => signout(request)
+INFO:root:add static /static/ => /home/admin/webapp/www/static
+INFO:root:Server started at http://60.205.221.43:80...
+INFO:root:add route GET /register => register()
+INFO:root:add route GET /signin => signin()
+INFO:root:add route GET /signout => signout(request)
+INFO:root:add static /static/ => /home/admin/webapp/www/static
+INFO:root:Server started at http://60.205.221.43:80...
+INFO:root:Request: GET /blog/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000
+INFO:root:Check user: GET /blog/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000
+INFO:root:SQL: select `id`, `email`, `admin`, `image`, `passwd`, `name`, `created_at` from `users` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:Set current user: m15801021028@163.com
+INFO:root:Response handler...
+INFO:root:Call with arg: {'id': '0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000'}
+INFO:root:SQL: select `id`, `content`, `user_image`, `name`, `summary`, `created_at`, `user_name`, `user_id` from `blogs` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:SQL: select `id`, `content`, `blog_id`, `user_image`, `created_at`, `user_name`, `user_id` from `comments` where blog_id=? order by created_at desc
+INFO:root:Rows returned: 0
+INFO:aiohttp.access:106.120.206.141 [18/May/2018:09:15:56 +0000] "GET /blog/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000 HTTP/1.1" 200 21450 "http://www.lxiao.net:8000/manage/blogs/edit?id=0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
+INFO:root:Request: GET /static/css/pygments-css/vim.css
+INFO:root:Check user: GET /static/css/pygments-css/vim.css
+INFO:root:SQL: select `id`, `email`, `admin`, `image`, `passwd`, `name`, `created_at` from `users` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:Set current user: m15801021028@163.com
+INFO:root:Response handler...
+INFO:aiohttp.access:106.120.206.141 [18/May/2018:09:15:57 +0000] "GET /static/css/pygments-css/vim.css HTTP/1.1" 200 4784 "http://www.lxiao.net:8000/blog/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
+INFO:root:Found model: User (table: users)
+INFO:root:Found model: User (table: users)
+INFO:root:  Found mapping: name ==> <StringField, varchar(100):None>
+INFO:root:  Found mapping: id ==> <IntegerField, bigint:None>
+INFO:root:  Found mapping: id ==> <IntegerField, bigint:None>
+INFO:root:  Found mapping: name ==> <StringField, varchar(100):None>
+INFO:root:Found model: User (table: users)
+INFO:root:  Found mapping: image ==> <StringField, varchar(500):None>
+INFO:root:  Found mapping: name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: email ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: passwd ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: admin ==> <BooleanField, boolean:None>
+INFO:root:Found model: Blog (table: blogs)
+INFO:root:  Found mapping: name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: content ==> <TextField, text:None>
+INFO:root:  Found mapping: user_name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: user_image ==> <StringField, varchar(500):None>
+INFO:root:  Found mapping: id ==> <StringField, varchat(50):None>
+INFO:root:  Found mapping: user_id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: summary ==> <StringField, varchar(200):None>
+INFO:root:Found model: Comment (table: comments)
+INFO:root:  Found mapping: content ==> <TextField, text:None>
+INFO:root:  Found mapping: user_name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: user_image ==> <StringField, varchar(500):None>
+INFO:root:  Found mapping: id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: user_id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: blog_id ==> <StringField, varchar(50):None>
+INFO:root:Create database connection pool...
+INFO:root:Init jinja2...
+INFO:root:Set jinja2 template path: /home/admin/webapp/www/templates
+INFO:root:add route GET /api/blogs => api_blogs(page)
+INFO:root:add route GET /api/comments => api_comments(page)
+INFO:root:add route POST /api/blogs => api_create_blog(request, name, summary, content)
+INFO:root:add route POST /api/blogs/{id}/comments => api_create_comment(id, request, content)
+INFO:root:add route POST /api/blogs/{id}/delete => api_delete_blog(id, request)
+INFO:root:add route POST /api/comments/{id}/delete => api_delete_comment(id, request)
+INFO:root:add route GET /api/blogs/{id} => api_get_blog(id)
+INFO:root:add route GET /api/users => api_get_users(page)
+INFO:root:add route POST /api/users => api_register_user(email, name, passwd)
+INFO:root:add route POST /api/blogs/{id} => api_update_blog(id, request, name, summary, content)
+INFO:root:add route POST /api/authenticate => authenticate(email, passwd)
+INFO:root:add route GET /blog/{id} => get_blog(id)
+INFO:root:add route GET / => index(request, page)
+INFO:root:add route GET /manage/ => manage()
+INFO:root:add route GET /manage/blogs => manage_blogs(page)
+INFO:root:add route GET /manage/comments => manage_comments(page)
+INFO:root:add route GET /manage/blogs/create => manage_create_blogs()
+INFO:root:add route GET /manage/blogs/edit => manage_edit_blog(id)
+INFO:root:add route GET /manage/users => manage_users(page)
+INFO:root:add route GET /register => register()
+INFO:root:add route GET /signin => signin()
+INFO:root:add route GET /signout => signout(request)
+INFO:root:Found model: User (table: users)
+INFO:root:add static /static/ => /home/admin/webapp/www/static
+INFO:root:Server started at http://60.205.221.43:80...
+INFO:root:  Found mapping: id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: passwd ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: image ==> <StringField, varchar(500):None>
+INFO:root:  Found mapping: name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: email ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: admin ==> <BooleanField, boolean:None>
+INFO:root:Found model: Blog (table: blogs)
+INFO:root:  Found mapping: id ==> <StringField, varchat(50):None>
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: summary ==> <StringField, varchar(200):None>
+INFO:root:  Found mapping: content ==> <TextField, text:None>
+INFO:root:  Found mapping: name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: user_name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: user_image ==> <StringField, varchar(500):None>
+INFO:root:  Found mapping: user_id ==> <StringField, varchar(50):None>
+INFO:root:Found model: Comment (table: comments)
+INFO:root:  Found mapping: id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: created_at ==> <FloatField, real:None>
+INFO:root:  Found mapping: content ==> <TextField, text:None>
+INFO:root:  Found mapping: user_name ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: user_image ==> <StringField, varchar(500):None>
+INFO:root:  Found mapping: user_id ==> <StringField, varchar(50):None>
+INFO:root:  Found mapping: blog_id ==> <StringField, varchar(50):None>
+INFO:root:Create database connection pool...
+INFO:root:Init jinja2...
+INFO:root:Set jinja2 template path: /home/admin/webapp/www/templates
+INFO:root:add route GET /api/blogs => api_blogs(page)
+INFO:root:add route GET /api/comments => api_comments(page)
+INFO:root:add route POST /api/blogs => api_create_blog(request, name, summary, content)
+INFO:root:add route POST /api/blogs/{id}/comments => api_create_comment(id, request, content)
+INFO:root:add route POST /api/blogs/{id}/delete => api_delete_blog(id, request)
+INFO:root:add route POST /api/comments/{id}/delete => api_delete_comment(id, request)
+INFO:root:add route GET /api/blogs/{id} => api_get_blog(id)
+INFO:root:add route GET /api/users => api_get_users(page)
+INFO:root:add route POST /api/users => api_register_user(email, name, passwd)
+INFO:root:add route POST /api/blogs/{id} => api_update_blog(id, request, name, summary, content)
+INFO:root:add route POST /api/authenticate => authenticate(email, passwd)
+INFO:root:add route GET /blog/{id} => get_blog(id)
+INFO:root:add route GET / => index(request, page)
+INFO:root:add route GET /manage/ => manage()
+INFO:root:add route GET /manage/blogs => manage_blogs(page)
+INFO:root:add route GET /manage/comments => manage_comments(page)
+INFO:root:add route GET /manage/blogs/create => manage_create_blogs()
+INFO:root:add route GET /manage/blogs/edit => manage_edit_blog(id)
+INFO:root:add route GET /manage/users => manage_users(page)
+INFO:root:add route GET /register => register()
+INFO:root:add route GET /signin => signin()
+INFO:root:add route GET /signout => signout(request)
+INFO:root:add static /static/ => /home/admin/webapp/www/static
+INFO:root:Server started at http://60.205.221.43:80...
+INFO:root:Request: GET /blog/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000
+INFO:root:Check user: GET /blog/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000
+INFO:root:SQL: select `id`, `passwd`, `image`, `name`, `email`, `created_at`, `admin` from `users` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:Set current user: m15801021028@163.com
+INFO:root:Response handler...
+INFO:root:Call with arg: {'id': '0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000'}
+INFO:root:SQL: select `id`, `created_at`, `summary`, `content`, `name`, `user_name`, `user_image`, `user_id` from `blogs` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:SQL: select `id`, `created_at`, `content`, `user_name`, `user_image`, `user_id`, `blog_id` from `comments` where blog_id=? order by created_at desc
+INFO:root:Rows returned: 0
+INFO:aiohttp.access:106.120.206.141 [18/May/2018:09:16:29 +0000] "GET /blog/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000 HTTP/1.1" 200 21452 "http://www.lxiao.net:8000/manage/blogs/edit?id=0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
+INFO:root:Request: GET /static/css/pygments-css/emacs.css
+INFO:root:Check user: GET /static/css/pygments-css/emacs.css
+INFO:root:SQL: select `id`, `passwd`, `image`, `name`, `email`, `created_at`, `admin` from `users` where `id`=?
+INFO:root:Rows returned: 1
+INFO:root:Set current user: m15801021028@163.com
+INFO:root:Response handler...
+INFO:aiohttp.access:106.120.206.141 [18/May/2018:09:16:29 +0000] "GET /static/css/pygments-css/emacs.css HTTP/1.1" 200 4620 "http://www.lxiao.net:8000/blog/0015242104340470cdbb3deefdd47c39b4c22a2e5184aea000" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
