@@ -21,7 +21,8 @@ class User(Model):
 
 class Blog(Model):
 	__table__ = 'blogs'
-
+	
+	private = BooleanField()
 	id = StringField(primary_key=True, default=next_id, ddl='varchat(50)')
 	user_id = StringField(ddl='varchar(50)')
 	user_name = StringField(ddl='varchar(50)')

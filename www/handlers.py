@@ -80,16 +80,26 @@ def get_page_index(page_str):
 # 创建新用户：POST /api/users
 
 @get('/api/blogs')
-async def api_blogs(*, page='1'):
+async def api_blogs(request, *, page='1'):
 	page_index = get_page_index(page)
 	# select count(id)计算not null值个数
-	num = await Blog.findNumber('count(id)')
-	p = Page(num, page_index)
-	if num == 0:
-		return dict(page=p, blogs=())
-	# LIMIT 5,10; 返回第6-15行数据
-	blogs = await Blog.findAll(orderBy='created_at desc', limit=(p.offset, p.limit))
-	return dict(page=p, blogs=blogs)
+	if request.__user__ is None or not request.__user__.admin:
+		num = await Blog.findNumber('count(id)', where='private is null or private is false')
+		p = Page(num, page_index)
+		if num == 0:
+			return dict(page=p, blogs=())
+		# LIMIT 5,10; 返回第6-15行数据
+		blogs = await Blog.findAll(orderBy='created_at desc', where='private is null or private is false', limit=(p.offset, p.limit))
+		return dict(page=p, blogs=blogs)
+
+	else:
+		num = await Blog.findNumber('count(id)')
+		p = Page(num, page_index)
+		if num == 0:
+			return dict(page=p, blogs=())
+		# LIMIT 5,10; 返回第6-15行数据
+		blogs = await Blog.findAll(orderBy='created_at desc', limit=(p.offset, p.limit))
+		return dict(page=p, blogs=blogs)
 
 @get('/api/blogs/{id}')
 async def api_get_blog(*, id):
@@ -98,7 +108,7 @@ async def api_get_blog(*, id):
 	return blog
 
 @post('/api/blogs')
-async def api_create_blog(request, *, name, summary, content):
+async def api_create_blog(request, *, name, summary, content, private):
 	check_admin(request)	# 只有管理员才可以发布博客
 	if not name or not name.strip():
 		raise APIValueError('name', 'name cannot be empty.')
@@ -107,6 +117,7 @@ async def api_create_blog(request, *, name, summary, content):
 	if not content or not content.strip():
 		raise APIValueError('content', 'content cannot be empty.')
 	blog = Blog(
+		private=private,
 		user_id=request.__user__.id, 	# app.py中把cookie2user获取到的用户赋给了request.__user__
 		user_name=request.__user__.name, 
 		user_image=request.__user__.image, 
@@ -118,7 +129,7 @@ async def api_create_blog(request, *, name, summary, content):
 	return blog
 
 @post('/api/blogs/{id}')
-async def api_update_blog(id, request, *, name, summary, content):
+async def api_update_blog(id, request, *, name, summary, content, private):
 	# 需要传入request来检查是否为管理员
 	check_admin(request)
 	blog = await Blog.find(id)
@@ -132,6 +143,7 @@ async def api_update_blog(id, request, *, name, summary, content):
 	blog.name = name.strip()
 	blog.summary = summary.strip()
 	blog.content = content.strip()
+	blog.private = private
 	await blog.update()
 	return blog
 
