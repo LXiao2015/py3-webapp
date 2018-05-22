@@ -7,9 +7,17 @@
 			el: '#vm',
 			data: {
 				blogs: data.blogs,
-				page: data.page
+				page: data.page,
 			},
 			methods: {
+				set_private: function (blog) {	
+					postJSON('/api/blogs/' + blog.id + '/secret', function (err, r) {
+						if (err) {
+							return alert(err.message || err.error || err);
+						}
+						refresh();
+					});
+				},
 				edit_blog: function (blog) {
 					location.assign('/manage/blogs/edit?id=' + blog.id);
 				},
@@ -84,7 +92,22 @@
 					</td>
 					<td>
 						<a href="#0" v-on="click: edit_blog(blog)"><i class="uk-icon-edit"></i></a>
-						<a href="#0" v-on="click: delete_blog(blog)"><i class="uk-icon-trash-o"></i></a>    <!-- api_delete_blog待实现 -->
+						<a href="#0" v-on="click: delete_blog(blog)"><i class="uk-icon-trash-o"></i></a>
+						<!-- <script> -->
+						<!-- document.getElementById("cond").onerror = function MyFunction(private) { -->
+							<!-- alert(private); -->
+							<!-- if (private == 1) { -->
+								<!-- $('#private').removeClass('uk-icon-lock'); -->
+								<!-- $('#private').addClass('uk-icon-unlock'); -->
+							<!-- } -->
+							<!-- else { -->
+								<!-- $('#private').removeClass('uk-icon-unlock'); -->
+								<!-- $('#private').addClass('uk-icon-lock'); -->
+							<!-- } -->
+						<!-- } -->
+						<!-- </script> -->
+						<a id="private" href="#0" v-on="click: set_private(blog)" v-if='!blog.private'><i class="uk-icon-unlock" title="已全部可见，点击更改"></i></a>
+						<a id="private" href="#0" v-on="click: set_private(blog)" v-if='blog.private'><i class="uk-icon-lock" title="仅自己可见，点击更改"></i></a>
 					</td>
 				</tr>
 			</tbody>

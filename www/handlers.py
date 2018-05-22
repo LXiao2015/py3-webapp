@@ -146,6 +146,17 @@ async def api_update_blog(id, request, *, name, summary, content, private):
 	blog.private = private
 	await blog.update()
 	return blog
+	
+@post('/api/blogs/{id}/secret')
+async def api_set_private(id, request):
+	check_admin(request)
+	blog = await Blog.find(id)
+	if blog.private == 1:
+		blog.private = 0
+	else:
+		blog.private = 1
+	await blog.update()
+	return blog.private
 
 @post('/api/blogs/{id}/delete')
 async def api_delete_blog(id, request):
