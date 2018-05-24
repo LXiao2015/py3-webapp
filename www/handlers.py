@@ -108,7 +108,7 @@ async def api_get_blog(*, id):
 	return blog
 
 @post('/api/blogs')
-async def api_create_blog(request, *, name, summary, content, private):
+async def api_create_blog(request, *, name, summary, content, private=0):
 	check_admin(request)	# 只有管理员才可以发布博客
 	if not name or not name.strip():
 		raise APIValueError('name', 'name cannot be empty.')
