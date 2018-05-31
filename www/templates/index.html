@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<!-- <html xmlns="http://www.w3.org/1999/xhtml"> -->
+
+<html>
+<head>
+	<meta charset="utf-8" />
+
+	{% block meta %}<!-- 用于子页面定义一些meta, 例如RSS feed -->{% endblock %}
+	<title>{% block title %}<!-- 页面的标题 --> ? {% endblock %} - Awesome Python Webapp</title>
+
+	<!-- <script src="/static/js/cufon-yui.js"></script> -->
+	<!-- <script src="/static/js/arial.js"></script> -->
+	<!-- <script src="/static/js/cuf_run.js"></script> -->
+
+	<link rel="stylesheet" href="/static/css/markdown.min.css">
+	<link rel="stylesheet" href="/static/css/markdown.css">
+	<link rel="stylesheet" href="/static/css/uikit.min.css">
+	<link rel="stylesheet" href="/static/css/uikit.gradient.min.css">
+	<link rel="stylesheet" href="/static/css/awesome.css">
+	<link href="/static/css/style.css" rel="stylesheet">
+	<!-- <link rel="stylesheet" href="/static/css/pygments-css/emacs.css"> -->
+	<script src="/static/js/jquery.min.js"></script>
+	<!-- <script src="/static/js/sha1.min.js"></script> -->
+	<!-- <script src="/static/js/uikit.min.js"></script> -->
+	<!-- <script src="/static/js/sticky.min.js"></script> -->
+	<script src="/static/js/vue.min.js"></script>
+	<script src="/static/js/awesome.js"></script>
+
+	{% block beforehead %}<!-- 子页面可以在<head>标签关闭前插入JavaScript代码 -->{% endblock %}
+</head>
+
+<body>
+	<div class="main">
+	  <div class="header">
+		<div class="header_resize">
+		  <div class="logo">
+			<h1><a href="http://www.lxiao.net/">Hey<span>bunny</span><strong>Hello, world!</strong></a></h1>
+		  </div>
+		  <div class="clr"></div>
+		  <div class="menu_nav">
+			<ul>
+			  <li class="active"><a href="index.html"><strong>Timeline</strong></a></li>
+			  <li><a href="support.html"><strong>Coding</strong></a></li>
+			  <li><a href="about.html"><strong>Linux</strong></a></li>
+			  <li><a href="blog.html"><strong>C++</strong></a></li>
+			  <li class="last"><a href="contact.html"><strong>Private</strong></a></li>
+			</ul>
+		   <div class="search">
+			<form id="form" name="form" method="post" action="">
+			  <span>
+				<input name="q" type="text" class="keywords" id="textfield" maxlength="50" style="height:100%; width:100%;"/>
+			  </span>
+			  <input name="b" type="image" style="padding:2px 0 0 5px" src="/static/img/search.gif" class="button" />
+			</form>
+			</div>
+		  </div>
+		  <div class="clr"></div>
+		</div>
+	  </div>
+	  <div class="clr"></div>
+	  
+	  <div class="content">
+		<div class="content_resize">
+	    {% block content %}<!-- 子页面的content布局和内容 -->{% endblock %}
+		</div>
+	  </div>
+	  
+	  <div class="fbg">
+		<div class="footer">
+		  	<p style="font-size:12px;">
+				<a terget="_blank" title="微博" href="https://weibo.com/2978255741/profile?topnav=1&wvr=6" class="uk-icon-button uk-icon-weibo"></a>
+				<a terget="_blank" title="GitHub" href="https://github.com/LXiao2015" class="uk-icon-button uk-icon-github"></a>
+				<a terget="_blank" title="简书" href="https://www.jianshu.com/u/581759327d44" class="uk-icon-button uk-icon-book"></a>
+				<a terget="_blank" title="发邮件" href="mailto:m15801021028@163.com" class="uk-icon-button uk-icon-envelope"></a>
+				<img style="margin-left:605px;" src="http://cc.amazingcounters.com/counter.php?i=3221933&c=9666112" alt="AmazingCounters.com">    clicks
+			</p>
+			<p class="lr">Copyright &copy; <a href="#">My Website</a>. [<a href="/manage/" target="_blank">Manage</a>]</p>
+			<p class="lf"><a href="http:www.lxiao.net/" target="_blank">www.lxiao.net</a>. All rights reserved.</p>
+			
+		</div>
+		<div class="clr"></div>
+	  </div>
+	</div>
+</body>
+</html>
