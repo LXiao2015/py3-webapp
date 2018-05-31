@@ -1,10 +1,10 @@
-{% extends '__base__.html' %}
+{% extends 'index.html' %}
 {% block title %}{{ blog.name }}{% endblock %}
 {% block beforehead %}
 <script>
 	var comment_url = '/api/blogs/{{ blog.id }}/comments';    // 为id号博客创建一条评论
 	$(function () {
-		var $form = $('#form-comment');
+		var $form = $('#leavereply');
 		$form.submit(function (e) {    // 绑定button的submit事件
 			// 在未输入内容时阻止对表单的提交, e是event
 			e.preventDefault();
@@ -24,78 +24,63 @@
 </script>
 {% endblock %}
 {% block content %}
-<div class="uk-width-medium-3-4">
-	<article class="uk-article">
-		<h2>{{ blog.name }}</h2>
-		<p class="uk-article-meta">发表于{{ blog.created_at|datetime }}<a style="padding-left:15px;" href="/manage/blogs/edit?id={{ blog.id }}" ><i class="uk-icon-edit"></i></a></p>
-		<p>{{ blog.html_content|safe }}</p>
-	</article>
-	<hr class="uk-article-divider">
+
+  <div class="mainbar">
+	<div class="article">
+	  <strong style="font-size:25px; color:#111111">{{ blog.name }}</strong>
+	  <p class="uk-article-meta">发表于{{ blog.created_at|datetime }}<a style="padding-left:15px;" href="/manage/blogs/edit?id={{ blog.id }}" ><i class="uk-icon-edit"></i></a></p>
+	  <p>{{ blog.html_content|safe }}</p>
+	</div>
 	
-	{% if __user__ %}
-	<h3>发表评论</h3>
-	<article class="uk-comment">
-		<header class="uk-comment-header">
-			<img class="uk-border-rounded" width="50" height="50" src="{{ __user__.image }}">
-			<h4 class="uk-comment-title">{{ __user__.name }}</h4>
-		</header>
-		<div class="uk-comment-body">
-			<form id="form-comment" class="uk-form">
-				<div class="uk-alert uk-alert-danger uk-hidden"></div>
-				<div class="uk-form-row">
-					 <textarea rows="6" placeholder="说点什么吧" style="width:100%;resize:none;"></textarea>
-				</div>
-				<div class="uk-form-row">
-					<button type="submit" class="uk-button uk-button-primary"><i class="uk-icon-comment"></i> 发表评论</button>
-				</div>
-			</form>
+	<div class="article">
+	  <h2>Responses</h2>
+	  <div class="clr"></div>
+	  {% for comment in comments %}
+	  <div class="comment">
+		<img class="uk-comment-avatar uk-border-rounded" width="50" height="50" src="{{ __user__.image }}">
+		<h4 class="uk-comment-title"><a href="#">{{ comment.user_name }}</a> {% if comment.user_id==blog.user_id %}（作者）{% endif %}  Says:</h4>
+		<p class="uk-comment-meta">{{ comment.created_at|datetime }}</p>
+	  </div>
+	  <div class="uk-comment-body">
+		{{ comment.html_content|safe }}
+	  </div>
+	  {% else %}
+	  <p>还没有人评论...</p>
+	  {% endfor %}
+	</div>
+			
+	<div class="article">
+	  {% if __user__ %}
+	  <h2><span>Leave a</span> Reply</h2>
+	  <div class="clr"></div>
+	  <form action="#" id="leavereply">
+		<div class="uk-alert uk-alert-danger uk-hidden"></div>
+		<div class="uk-form-row">
+			 <textarea rows="6" style="width:100%;resize:none;"></textarea>
 		</div>
-	</article>
-	<hr class="uk-article-divider">
-{% endif %}
-{% if not __user__ %}
-	<p>请先<a href="/signin" class="button">登录</a>或<a href="/register" class="button">注册</a>再评论</p>
-{% endif %}
+		<div class="uk-form-row">
+			<button type="submit" class="uk-button uk-button-primary"><i class="uk-icon-comment"></i> 发表评论</button>
+		</div>
+	  </form>
+	  {% endif %}
+	  {% if not __user__ %}
+		<p>请先<a href="/signin" class="button">登录</a>或<a href="/register" class="button">注册</a>再评论</p>
+	  {% endif %}
+	</div>
 
-	<h3>最新评论</h3>
-	<ul class="uk-comment-list">
-		{% for comment in comments %}
-		<li>
-			<article class="uk-comment">
-				<header class="uk-comment-header">
-					<img class="uk-comment-avatar uk-border-rounded" width="50" height="50" src="{{ __user__.image }}">
-					<h4 class="uk-comment-title">{{ comment.user_name }} {% if comment.user_id==blog.user_id %}（作者）{% endif %}</h4>
-					<p class="uk-comment-meta">{{ comment.created_at|datetime }}</p>
-				</header>
-				<div class="uk-comment-body">
-					{{ comment.html_content|safe }}
-				</div>
-			</article>
-		</li>
-		{% else %}
-		<p>还没有人评论...</p>
-		{% endfor %}
+  </div>
+		  
+  <div class="sidebar">
+	<div class="gadget">
+	  <h2>Links</h2>
+	  <div class="clr"></div>
+	  <ul class="sb_menu">
+		<li><i class="uk-icon-edit"></i> <a target="_blank" href="https://leetcode.com/problemset/algorithms/">LeetCode</a></li>
+		<li><i class="uk-icon-bookmark"></i> <a target="_blank" href="http://dblp.org/search/">Paper</a></li>
+		<li><i class="uk-icon-stack-overflow"></i> <a target="_blank" href="https://stackoverflow.com/">Stack Overflow</a></li>
+		<li><i class="uk-icon-btc"></i> <a target="_blank" href="http://8btc.com/">block chain</a></li>
 	</ul>
-</div>
-<div class="uk-width-medium-1-4">
-	<div class="uk-panel uk-panel-box">
-		<div class="uk-text-center">
-			<img class="uk-border-rounded" width="120" height="120" src="{{ blog.user_image }}">
-			<h3>{{ blog.user_name }}</h3>
-		</div>
 	</div>
-	<div class="uk-panel uk-panel-header">
-		<h3 class="uk-panel-title">友情链接</h3>
-		<ul class="uk-list uk-list-line">
-			<li><i class="uk-icon-link"></i> <a href="#">编程</a></li>
-			<li><i class="uk-icon-link"></i> <a href="#">思考</a></li>
-			<li><i class="uk-icon-link"></i> <a href="#">读书</a></li>
-		</ul>
-	</div>
+  </div>
 
-	<div style="margin-top:50px;" align="center">
-                <p>点击量 </p>
-                <img border="0" src="http://cc.amazingcounters.com/counter.php?i=3221933&c=9666112" alt="AmazingCounters.com">
-        </div>
-</div>
 {% endblock %}

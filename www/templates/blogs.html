@@ -1,4 +1,6 @@
-{% extends '__base__.html' %}
+
+
+{% extends 'index.html' %}
 
 {% block title %}日志{% endblock %}
 
@@ -32,34 +34,34 @@
 {% endblock %}
 
 {% block content %}
-
-	<div id="vm" class="uk-width-medium-3-4">
-		<div v-repeat="blog: blogs">
-			<article class="uk-article">
-				<h2><a target="_blank" v-attr="href: '/blog/'+blog.id" v-text="blog.name"></a></h2>
-				<!-- 通过jinja2的filter(过滤器), 把一个浮点数转换成日期字符串 -->
-				<p v-text="blog.created_at.toDateTime()" class="uk-article-meta"></p>
-				<p v-text="blog.summary"></p>
-				<p><a target="_blank" v-attr="href: '/blog/'+blog.id">继续阅读 <i class="uk-icon-angle-double-right"></i></a></p>
-			</article>
-			<hr class="uk-article-divider">
+	
+	  <div id="vm" class="mainbar">
+		  <div v-repeat="blog: blogs">
+			<div class="article">
+			  <h2><a target="_blank" v-attr="href: '/blog/'+blog.id" v-text="blog.name"></a></h2>
+			  <div class="clr"></div>
+			  <p v-text="blog.created_at.toDateTime()" class="uk-article-meta"></p>
+					
+			  <div class="clr"></div>
+			  <p v-text="blog.summary"></p>
+			  
+			  <!-- <p><a target="_blank" v-attr="href: '/blog/'+blog.id">继续阅读 <i class="uk-icon-angle-double-right"></i></a></p> -->
+		  </div>
 		</div>
-		<div v-component="pagination" v-with="page"></div>
-	</div>
-
-	<div class="uk-width-medium-1-4">
-		<div class="uk-panel uk-panel-header">
-			<h3 class="uk-panel-title">友情链接</h3>
-			<ul class="uk-list uk-list-line">
-				<li><i class="uk-icon-edit"></i> <a target="_blank" href="https://leetcode.com/problemset/algorithms/">LeetCode</a></li>
-				<li><i class="uk-icon-bookmark"></i> <a target="_blank" href="http://dblp.org/search/">Paper</a></li>
-				<li><i class="uk-icon-stack-overflow"></i> <a target="_blank" href="https://stackoverflow.com/">Stack Overflow</a></li>
-				<li><i class="uk-icon-btc"></i> <a target="_blank" href="http://8btc.com/">block chain</a></li>
-			</ul>
+	  </div>
+	  
+	  <div class="sidebar">
+		<div class="gadget">
+		  <h2>Links</h2>
+		  <div class="clr"></div>
+		  <ul class="sb_menu">
+			<li><i class="uk-icon-edit"></i> <a target="_blank" href="https://leetcode.com/problemset/algorithms/">LeetCode</a></li>
+			<li><i class="uk-icon-bookmark"></i> <a target="_blank" href="http://dblp.org/search/">Paper</a></li>
+			<li><i class="uk-icon-stack-overflow"></i> <a target="_blank" href="https://stackoverflow.com/">Stack Overflow</a></li>
+			<li><i class="uk-icon-btc"></i> <a target="_blank" href="http://8btc.com/">block chain</a></li>
+		</ul>
 		</div>
-		<div style="margin-top:50px;" align="center">
-                	<p>点击量 </p>
-                	<img border="0" src="http://cc.amazingcounters.com/counter.php?i=3221933&c=9666112" alt="AmazingCounters.com">
-        	</div>
-	</div
+	  </div>
+
+
 {% endblock %}

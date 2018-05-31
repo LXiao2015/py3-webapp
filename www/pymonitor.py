@@ -20,6 +20,9 @@ class MyFileSystemEventHandler(FileSystemEventHandler):
 		if event.src_path.endswith('.html'):
 			log('HTML source file changed: %s' % event.src_path)
 			self.restart()
+		if event.src_path.endswith('.css'):
+                        log('CSS file changed: %s' % event.src_path)
+                        self.restart()
 
 command = ['echo', 'ok']    # 任意初始化两个字符串, 只是为了表明command一般由两段组成
 process = None
