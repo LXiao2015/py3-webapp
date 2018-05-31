@@ -40478,3 +40478,8 @@ INFO:root:add route GET /signin => signin()
 INFO:root:add route GET /signout => signout(request)
 INFO:root:add static /static/ => /home/admin/webapp/www/static
 INFO:root:Server started at http://60.205.221.43:80...
+INFO:root:Request: GET /
+INFO:root:Check user: GET /
+INFO:root:Response handler...
+INFO:root:Call with arg: {'request': <Request GET / >}
+INFO:aiohttp.access:183.136.190.62 [31/May/2018:02:49:06 +0000] "GET / HTTP/1.1" 200 5178 "-" "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36"
