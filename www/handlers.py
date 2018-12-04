@@ -7,7 +7,7 @@ import markdown2
 from aiohttp import web
 from coroweb import get, post
 from apis import Page, APIError, APIValueError, APIResourceNotFoundError
-from models import User, Comment, Blog, next_id
+from models import User, Comment, Blog, Bookmark, next_id
 from config import configs
 
 COOKIE_NAME = 'awesession'
@@ -79,6 +79,11 @@ def get_page_index(page_str):
 # 获取用户：GET /api/users
 # 创建新用户：POST /api/users
 
+# 获取收藏：GET /api/bookmarks
+# 创建收藏：POST /api/bookmarks
+# 修改收藏：POST /api/bookmarks/:bookmark_id
+# 删除收藏：POST /api/bookmarks/:bookmark_id/delete
+
 @get('/api/blogs')
 async def api_blogs(request, *, page='1'):
 	page_index = get_page_index(page)
@@ -101,6 +106,28 @@ async def api_blogs(request, *, page='1'):
 		blogs = await Blog.findAll(orderBy='created_at desc', limit=(p.offset, p.limit))
 		return dict(page=p, blogs=blogs)
 
+@get('/api/bookmarks')
+async def api_bookmarks(request, *, page='1'):
+	page_index = get_page_index(page)
+	# select count(id)计算not null值个数
+	if request.__user__ is None or not request.__user__.admin:
+		num = await Bookmark.findNumber('count(id)', where='private is null or private is false')
+		p = Page(num, page_index)
+		if num == 0:
+			return dict(page=p, bookmarks=())
+		# LIMIT 5,10; 返回第6-15行数据
+		bookmarks = await Bookmark.findAll(orderBy='created_at desc', where='private is null or private is false', limit=(p.offset, p.limit))
+		return dict(page=p, bookmarks=bookmarks)
+
+	else:
+		num = await Bookmark.findNumber('count(id)')
+		p = Page(num, page_index)
+		if num == 0:
+			return dict(page=p, bookmarks=())
+		# LIMIT 5,10; 返回第6-15行数据
+		bookmarks = await Bookmark.findAll(orderBy='created_at desc', limit=(p.offset, p.limit))
+		return dict(page=p, bookmarks=bookmarks)
+		
 @get('/api/blogs/{id}')
 async def api_get_blog(*, id):
 	blog = await Blog.find(id)
@@ -320,8 +347,12 @@ async def get_blog(id):
 # 评论列表页：GET /manage/comments
 # 日志列表页：GET /manage/blogs
 # 创建日志页：GET /manage/blogs/create
-# 修改日志页：GET /manage/blogs/
+# 修改日志页：GET /manage/blogs/edit
 # 用户列表页：GET /manage/users
+
+# 收藏列表页：GET /manage/bookmarks
+# 创建收藏页：GET /manage/bookmarks/create
+# 修改收藏页：GET /manage/bookmarks/edit
 
 @get('/manage/')    # 首页下面的Manage点击跳转到博客列表
 def manage():
@@ -341,12 +372,27 @@ def manage_blogs(*, page='1'):
 		'page_index': get_page_index(page)
 	}
 
+@get('/manage/bookmarks')    # 这几个对bolg操作的区别?
+def manage_bookmarks(*, page='1'):
+	return {
+		'__template__': 'manage_bookmarks.html',
+		'page_index': get_page_index(page)
+	}
+	
 @get('/manage/blogs/create')
 def manage_create_blogs():
 	return {
 		'__template__': 'manage_blog_edit.html',
 		'id': '',
 		'action': '/api/blogs'
+	}
+
+@get('/manage/bookmarks/create')
+def manage_create_bookmarks():
+	return {
+		'__template__': 'manage_bookmark_edit.html',
+		'id': '',
+		'action': '/api/bookmarks'
 	}
 
 @get('/manage/blogs/edit')
@@ -356,6 +402,15 @@ def manage_edit_blog(*, id):
 		'__template__': 'manage_blog_edit.html',
 		'id': id,
 		'action': '/api/blogs/%s' % id
+	}
+	
+@get('/manage/bookmarks/edit')
+def manage_edit_bookmark(*, id):
+	return {
+		# 可以直接使用edit的模板
+		'__template__': 'manage_bookmark_edit.html',
+		'id': id,
+		'action': '/api/bookmarks/%s' % id
 	}
 
 @get('/manage/users')

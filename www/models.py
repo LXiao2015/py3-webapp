@@ -32,6 +32,19 @@ class Blog(Model):
 	content = TextField()
 	created_at = FloatField(default=time.time)
 
+class Bookmark(Model):
+	__table__ = 'bookmarks'
+
+	private = BooleanField()
+	id = StringField(primary_key=True, default=next_id, ddl='varchat(50)')
+	user_id = StringField(ddl='varchar(50)')
+	user_name = StringField(ddl='varchar(50)')
+	name = StringField(ddl='varchar(50)')
+	summary = StringField(ddl='varchar(200)')
+	url = TextField()
+	created_at = FloatField(default=time.time)
+
+
 class Comment(Model):
 	__table__ = 'comments'
 
