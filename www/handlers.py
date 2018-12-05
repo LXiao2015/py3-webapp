@@ -378,6 +378,14 @@ async def index(request, *, page='1'):
 		'__user__': request.__user__
 	}
 
+@get('/bookmarks')
+async def bookmarks(request, *, page='1'):
+	return {
+		'__template__': 'bookmarks.html',
+		'page_index': get_page_index(page),
+		'__user__': request.__user__
+	}
+	
 @get('/register')
 def register():
 	return {'__template__': 'register.html'}
