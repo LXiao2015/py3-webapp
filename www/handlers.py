@@ -72,6 +72,7 @@ def get_page_index(page_str):
 # 获取日志：GET /api/blogs
 # 创建日志：POST /api/blogs
 # 修改日志：POST /api/blogs/:blog_id
+# 私密日志：POST /api/blogs/:blog_id/secret
 # 删除日志：POST /api/blogs/:blog_id/delete
 # 获取评论：GET /api/comments
 # 创建评论：POST /api/blogs/:blog_id/comments
@@ -82,6 +83,7 @@ def get_page_index(page_str):
 # 获取收藏：GET /api/bookmarks
 # 创建收藏：POST /api/bookmarks
 # 修改收藏：POST /api/bookmarks/:bookmark_id
+# 私密收藏：POST /api/bookmarks/:bookmark_id/secret
 # 删除收藏：POST /api/bookmarks/:bookmark_id/delete
 
 @get('/api/blogs')
@@ -134,6 +136,12 @@ async def api_get_blog(*, id):
 	# 返回到manage_blog_edit.html中, 当需要编辑旧博客时
 	return blog
 
+@get('/api/bookmarks/{id}')
+async def api_get_bookmark(*, id):
+	bookmark = await Bookmark.find(id)
+	# 返回到manage_blog_edit.html中, 当需要编辑旧博客时
+	return bookmark
+	
 @post('/api/blogs')
 async def api_create_blog(request, *, name, summary, content, private=0):
 	check_admin(request)	# 只有管理员才可以发布博客
@@ -155,6 +163,26 @@ async def api_create_blog(request, *, name, summary, content, private=0):
 	await blog.save()
 	return blog
 
+@post('/api/bookmarks')
+async def api_create_bookmark(request, *, name, summary, url, private=0):
+	check_admin(request)	# 只有管理员才可以发布博客
+	if not name or not name.strip():
+		raise APIValueError('name', 'name cannot be empty.')
+	if not summary or not summary.strip():
+		raise APIValueError('summary', 'summary cannot be empty.')
+	if not url or not url.strip():
+		raise APIValueError('url', 'url cannot be empty.')
+	bookmark = Bookmark(
+		private=private,
+		user_id=request.__user__.id, 	# app.py中把cookie2user获取到的用户赋给了request.__user__
+		user_name=request.__user__.name, 
+		name=name.strip(), 
+		summary=summary.strip(), 
+		url=url.strip()
+	)
+	await bookmark.save()
+	return bookmark
+	
 @post('/api/blogs/{id}')
 async def api_update_blog(id, request, *, name, summary, content, private):
 	# 需要传入request来检查是否为管理员
@@ -174,8 +202,27 @@ async def api_update_blog(id, request, *, name, summary, content, private):
 	await blog.update()
 	return blog
 	
+@post('/api/bookmarks/{id}')
+async def api_update_bookmark(id, request, *, name, summary, url, private):
+	# 需要传入request来检查是否为管理员
+	check_admin(request)
+	bookmark = await Bookmark.find(id)
+	# 对于用户输入要记得检查
+	if not name or not name.strip():
+		raise APIValueError('name', 'name cannot be empty.')
+	if not summary or not summary.strip():
+		raise APIValueError('summary', 'summary cannot be empty.')
+	if not url or not url.strip():
+		raise APIValueError('url', 'url cannot be empty.')
+	bookmark.name = name.strip()
+	bookmark.summary = summary.strip()
+	bookmark.url = url.strip()
+	bookmark.private = private
+	await bookmark.update()
+	return bookmark
+	
 @post('/api/blogs/{id}/secret')
-async def api_set_private(id, request):
+async def api_set_blog_private(id, request):
 	check_admin(request)
 	blog = await Blog.find(id)
 	if blog.private == 1:
@@ -185,6 +232,17 @@ async def api_set_private(id, request):
 	await blog.update()
 	return blog.private
 
+@post('/api/bookmarks/{id}/secret')
+async def api_set_bookmark_private(id, request):
+	check_admin(request)
+	bookmark = await Bookmark.find(id)
+	if bookmark.private == 1:
+		bookmark.private = 0
+	else:
+		bookmark.private = 1
+	await bookmark.update()
+	return bookmark.private
+	
 @post('/api/blogs/{id}/delete')
 async def api_delete_blog(id, request):
 	check_admin(request)
@@ -192,6 +250,13 @@ async def api_delete_blog(id, request):
 	await blog.remove()
 	return dict(id=id)    # 谁来处理?
 
+@post('/api/bookmarks/{id}/delete')
+async def api_delete_bookmark(id, request):
+	check_admin(request)
+	bookmark = await Bookmark.find(id)
+	await bookmark.remove()
+	return dict(id=id)
+	
 @get('/api/comments')
 async def api_comments(*, page='1'):
 	page_index = get_page_index(page)
@@ -365,14 +430,14 @@ def manage_comments(*, page='1'):
 		'page_index': get_page_index(page)
 	}
 
-@get('/manage/blogs')    # 这几个对bolg操作的区别?
+@get('/manage/blogs')    # 这几个对blog操作的区别?
 def manage_blogs(*, page='1'):
 	return {
 		'__template__': 'manage_blogs.html',
 		'page_index': get_page_index(page)
 	}
 
-@get('/manage/bookmarks')    # 这几个对bolg操作的区别?
+@get('/manage/bookmarks')
 def manage_bookmarks(*, page='1'):
 	return {
 		'__template__': 'manage_bookmarks.html',

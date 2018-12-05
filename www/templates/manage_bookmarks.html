@@ -6,25 +6,25 @@
 		var vm = new Vue({
 			el: '#vm',
 			data: {
-				blogs: data.blogs,
+				bookmarks: data.bookmarks,
 				page: data.page,
 			},
 			methods: {
-				set_private: function (blog) {	
-					postJSON('/api/bookmarks/' + blog.id + '/secret', function (err, r) {
+				set_private: function (bookmark) {	
+					postJSON('/api/bookmarks/' + bookmark.id + '/secret', function (err, r) {
 						if (err) {
 							return alert(err.message || err.error || err);
 						}
 						refresh();
 					});
 				},
-				edit_blog: function (blog) {
-					location.assign('/manage/blogs/edit?id=' + blog.id);
+				edit_bookmark: function (bookmark) {
+					location.assign('/manage/bookmarks/edit?id=' + bookmark.id);
 				},
-				delete_blog: function (blog) {
+				delete_bookmark: function (bookmark) {
 					// confirm()方法用于显示一个带有指定消息和OK及取消按钮的对话框
-					if (confirm('确认要删除“' + blog.name + '”？删除后不可恢复！')) {
-						postJSON('/api/blogs/' + blog.id + '/delete', function (err, r) {
+					if (confirm('确认要删除“' + bookmark.name + '”？删除后不可恢复！')) {
+						postJSON('/api/bookmarks/' + bookmark.id + '/delete', function (err, r) {
 							if (err) {
 								return alert(err.message || err.error || err);
 							}
@@ -58,8 +58,8 @@
 		<div class="uk-panel uk-panel-box">
 			<ul class="uk-breadcrumb">
 				<li><a href="/manage/comments">评论</a></li>
-                                <li><a href="/manage/blogs">日志</a></li>
-                                <li class="uk-active"><span>收藏</span></li>
+                <li><a href="/manage/blogs">日志</a></li>
+                <li class="uk-active"><span>收藏</span></li>
 				<li><a href="/manage/users">用户</a></li>
 			</ul>
 		</div>
@@ -81,19 +81,19 @@
 			</thead>
 			<tbody>
 				<!-- 可以把v-repeat="blog: blogs"看成循环代码, 所以可以在一个<tr>内部引用循环变量blog -->
-				<tr v-repeat="blog: blogs" >
+				<tr v-repeat="bookmark: bookmarks" >
 					<td>
-						<a target="_blank" v-attr="href: '/blog/'+blog.id" v-text="blog.name"></a>
+						<a target="_blank" v-attr="href: bookmark.url" v-text="bookmark.name"></a>
 					</td>
 					<td>
-						<a target="_blank" v-attr="href: '/user/'+blog.user_id" v-text="blog.user_name"></a>
+						<a target="_blank" v-attr="href: '/user/'+bookmark.user_id" v-text="bookmark.user_name"></a>
 					</td>
 					<td>
-						<span v-text="blog.created_at.toDateTime()"></span>
+						<span v-text="bookmark.created_at.toDateTime()"></span>
 					</td>
 					<td>
-						<a href="#0" v-on="click: edit_blog(blog)"><i class="uk-icon-edit"></i></a>
-						<a href="#0" v-on="click: delete_blog(blog)"><i class="uk-icon-trash-o"></i></a>
+						<a href="#0" v-on="click: edit_bookmark(bookmark)"><i class="uk-icon-edit"></i></a>
+						<a href="#0" v-on="click: delete_bookmark(bookmark)"><i class="uk-icon-trash-o"></i></a>
 						<!-- <script> -->
 						<!-- document.getElementById("cond").onerror = function MyFunction(private) { -->
 							<!-- alert(private); -->
@@ -107,8 +107,8 @@
 							<!-- } -->
 						<!-- } -->
 						<!-- </script> -->
-						<a id="private" href="#0" v-on="click: set_private(blog)" v-if='!blog.private'><i class="uk-icon-unlock" title="已全部可见，点击更改"></i></a>
-						<a id="private" href="#0" v-on="click: set_private(blog)" v-if='blog.private'><i class="uk-icon-lock" title="仅自己可见，点击更改"></i></a>
+						<a id="private" href="#0" v-on="click: set_private(bookmark)" v-if='!bookmark.private'><i class="uk-icon-unlock" title="已全部可见，点击更改"></i></a>
+						<a id="private" href="#0" v-on="click: set_private(bookmark)" v-if='bookmark.private'><i class="uk-icon-lock" title="仅自己可见，点击更改"></i></a>
 					</td>
 				</tr>
 			</tbody>

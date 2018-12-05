@@ -7,10 +7,10 @@
 	var
 		ID = '{{ id }}',    // 写博客时id还未被创建
 		action = '{{ action }}';
-	function initVM(blog) {
+	function initVM(bookmark) {
 		var vm = new Vue({
 			el: '#vm',    // 绑定的View, 这里是#vm, 即id为vm的DOM, 对应的是一个<div>标签
-			data: blog,    // JS对象表示的Model, 在下面初始化为{name:'',summary:'',content:''}
+			data: bookmark,    // JS对象表示的Model, 在下面初始化为{name:'',summary:'',url:''}
 			methods: {    // View可以触发的JS函数, submit就是提交表单时触发的函数
 				submit: function (event) {
 					event.preventDefault();
@@ -21,7 +21,8 @@
 						}
 						else {
 							// 提交后跳转到的地址
-							return location.assign('/blog/' + r.id);
+							alert("here");
+							return location.assign('/manage/bookmarks');
 						}
 					});
 				}
@@ -31,12 +32,12 @@
 	}
 	$(function () {
 		if (ID) {    //旧博客, 调出来继续编辑
-			getJSON('/api/blogs/' + ID, function (err, blog) {
+			getJSON('/api/bookmarks/' + ID, function (err, bookmark) {
 				if (err) {
 					return fatal(err);    // fatal函数?
 				}
 				$('#loading').hide();
-				initVM(blog);
+				initVM(bookmark);
 			});
 		}
 		else {    // 新博客
@@ -44,7 +45,7 @@
 			initVM({
 				name: '',
 				summary: '',
-				content: ''
+				url: ''
 			});
 		}
 	});
@@ -57,7 +58,7 @@
 			<ul class="uk-breadcrumb">
 				<li><a href="/manage/comments">评论</a></li>
 				<li><a href="/manage/blogs">日志</a></li>
-                                <li><a href="/manage/bookmarks">收藏</a></li>
+                <li><a href="/manage/bookmarks">收藏</a></li>
 				<li><a href="/manage/users">用户</a></li>
 			</ul>
 		</div>
@@ -85,20 +86,20 @@
 			<div class="uk-form-row">
 				<label class="uk-form-label">链接地址：</label>
 				<div class="uk-form-controls">
-					<textarea v-model="content" rows="16" name="content" type="text" placeholder="内容" class="uk-width-1-1" style="resize:none;"></textarea>
+					<textarea v-model="url" rows="16" name="url" type="text" placeholder="链接地址" class="uk-width-1-1" style="resize:none;"></textarea>
 				</div>
 			</div>
 
 			<div class="uk-form-row">
-                                <label class="uk-form-label">设为私密</label>
-                                <div class="uk-form-controls">
-                                        <input v-model="private" name="private" type="checkbox"></input>
-                                </div>
-                        </div>
+				<label class="uk-form-label">设为私密</label>
+				<div class="uk-form-controls">
+						<input v-model="private" name="private" type="checkbox"></input>
+				</div>
+			</div>
 
 			<div class="uk-form-row">
 				<button type="submit" class="uk-button uk-button-primary"><i class="uk-icon-save"></i> 保存</button>
-				<a href="/manage/bookmarks" class="uk-button"><i class="uk-icon-times"></i> 取消</a>
+				<a href="/manage/bookmarks/" class="uk-button"><i class="uk-icon-times"></i> 取消</a>
 			</div>
 		</form>
 	</div>
