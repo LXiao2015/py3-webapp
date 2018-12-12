@@ -27,6 +27,7 @@
 <div class="uk-width-medium-3-4">
 	<article class="uk-article">
 		<h2>{{ blog.name }}</h2>
+		<p style="font-size:12px" v-text="blog.tag1" v-text="blog.tag2" v-text="blog.tag2"></p>
 		<p class="uk-article-meta">发表于{{ blog.created_at|datetime }}<a style="padding-left:15px;" href="/manage/blogs/edit?id={{ blog.id }}" ><i class="uk-icon-edit"></i></a></p>
 		<p>{{ blog.html_content|safe }}</p>
 	</article>

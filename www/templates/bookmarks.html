@@ -40,7 +40,12 @@
 				<!-- 通过jinja2的filter(过滤器), 把一个浮点数转换成日期字符串 -->
 				<p v-text="bookmark.created_at.toDateTime()" class="uk-article-meta"></p>
 				<p style="font-size:14px" v-text="bookmark.summary"></p>
-				<p><a target="_blank" v-attr="href: bookmark.url">继续阅读 <i class="uk-icon-angle-double-right"></i></a></p>
+				
+				<span v-if="bookmark.tag1" style="font-size:12px" v-text="bookmark.tag1" class="uk-badge uk-badge-success"></span>
+				<span v-if="bookmark.tag2" style="font-size:12px" v-text="bookmark.tag2" class="uk-badge uk-badge-success"></span>
+				<span v-if="bookmark.tag3" style="font-size:12px" v-text="bookmark.tag3" class="uk-badge uk-badge-success"></span>
+			
+
 			</article>
 			<hr class="uk-article-divider">
 		</div>

@@ -68,6 +68,37 @@ def get_page_index(page_str):
 		p = 1
 	return p
 
+def split_tags(tag):
+	tag1 = ""
+	tag2 = ""
+	tag3 = ""
+	median = tag.split(',')
+	result = []
+	for m in median:
+		result.extend(m.split('，'))
+	l = len(result)
+	if l > 0:
+		tag1 = result[0]
+	if l > 1:
+		tag2 = result[1]
+	if l > 2:
+		tag3 = result[2]
+	return tag1, tag2, tag3
+    
+def compose_tag(tag1, tag2, tag3):
+	tag = ""
+	if tag1 == "":
+		return tag
+	tag = tag + tag1 + ", "
+	if tag2 == "":
+		return tag
+	tag = tag + tag2 + ", "
+	if tag3 == "":
+		return tag
+	tag = tag + tag3
+	print("组装tag: %s" % tag)
+	return tag
+	
 # 后端API：
 # 获取日志：GET /api/blogs
 # 创建日志：POST /api/blogs
@@ -133,17 +164,19 @@ async def api_bookmarks(request, *, page='1'):
 @get('/api/blogs/{id}')
 async def api_get_blog(*, id):
 	blog = await Blog.find(id)
+	blog.tag = compose_tag(blog.tag1, blog.tag2, blog.tag3)
 	# 返回到manage_blog_edit.html中, 当需要编辑旧博客时
 	return blog
 
 @get('/api/bookmarks/{id}')
 async def api_get_bookmark(*, id):
 	bookmark = await Bookmark.find(id)
+	bookmark.tag = compose_tag(bookmark.tag1, bookmark.tag2, bookmark.tag3)
 	# 返回到manage_blog_edit.html中, 当需要编辑旧博客时
 	return bookmark
 	
 @post('/api/blogs')
-async def api_create_blog(request, *, name, summary, content, private=0):
+async def api_create_blog(request, *, name, summary, content, tag, private=0):
 	check_admin(request)	# 只有管理员才可以发布博客
 	if not name or not name.strip():
 		raise APIValueError('name', 'name cannot be empty.')
@@ -151,6 +184,8 @@ async def api_create_blog(request, *, name, summary, content, private=0):
 		raise APIValueError('summary', 'summary cannot be empty.')
 	if not content or not content.strip():
 		raise APIValueError('content', 'content cannot be empty.')
+	# TAGS can be empty
+	tag1, tag2, tag3 = split_tags(tag)
 	blog = Blog(
 		private=private,
 		user_id=request.__user__.id, 	# app.py中把cookie2user获取到的用户赋给了request.__user__
@@ -158,13 +193,16 @@ async def api_create_blog(request, *, name, summary, content, private=0):
 		user_image=request.__user__.image, 
 		name=name.strip(), 
 		summary=summary.strip(), 
-		content=content.strip()
+		content=content.strip(),
+		tag1=tag1.strip(),
+		tag2=tag2.strip(),
+		tag3=tag3.strip()
 	)
 	await blog.save()
 	return blog
 
 @post('/api/bookmarks')
-async def api_create_bookmark(request, *, name, summary, url, private=0):
+async def api_create_bookmark(request, *, name, summary, url, tag, private=0):
 	check_admin(request)	# 只有管理员才可以发布博客
 	if not name or not name.strip():
 		raise APIValueError('name', 'name cannot be empty.')
@@ -172,19 +210,23 @@ async def api_create_bookmark(request, *, name, summary, url, private=0):
 		raise APIValueError('summary', 'summary cannot be empty.')
 	if not url or not url.strip():
 		raise APIValueError('url', 'url cannot be empty.')
+	tag1, tag2, tag3 = split_tags(tag)
 	bookmark = Bookmark(
 		private=private,
 		user_id=request.__user__.id, 	# app.py中把cookie2user获取到的用户赋给了request.__user__
 		user_name=request.__user__.name, 
 		name=name.strip(), 
 		summary=summary.strip(), 
-		url=url.strip()
+		url=url.strip(),
+		tag1=tag1.strip(),
+		tag2=tag2.strip(),
+		tag3=tag3.strip()
 	)
 	await bookmark.save()
 	return bookmark
 	
 @post('/api/blogs/{id}')
-async def api_update_blog(id, request, *, name, summary, content, private):
+async def api_update_blog(id, request, *, name, summary, content, tag, private):
 	# 需要传入request来检查是否为管理员
 	check_admin(request)
 	blog = await Blog.find(id)
@@ -195,15 +237,20 @@ async def api_update_blog(id, request, *, name, summary, content, private):
 		raise APIValueError('summary', 'summary cannot be empty.')
 	if not content or not content.strip():
 		raise APIValueError('content', 'content cannot be empty.')
+
+	tag1, tag2, tag3 = split_tags(tag)
 	blog.name = name.strip()
 	blog.summary = summary.strip()
 	blog.content = content.strip()
 	blog.private = private
+	blog.tag1 = tag1.strip(),
+	blog.tag2 = tag2.strip(),
+	blog.tag3 = tag3.strip()
 	await blog.update()
 	return blog
 	
 @post('/api/bookmarks/{id}')
-async def api_update_bookmark(id, request, *, name, summary, url, private):
+async def api_update_bookmark(id, request, *, name, summary, url, tag, private):
 	# 需要传入request来检查是否为管理员
 	check_admin(request)
 	bookmark = await Bookmark.find(id)
@@ -214,10 +261,14 @@ async def api_update_bookmark(id, request, *, name, summary, url, private):
 		raise APIValueError('summary', 'summary cannot be empty.')
 	if not url or not url.strip():
 		raise APIValueError('url', 'url cannot be empty.')
+	tag1, tag2, tag3 = split_tags(tag)
 	bookmark.name = name.strip()
 	bookmark.summary = summary.strip()
 	bookmark.url = url.strip()
 	bookmark.private = private
+	bookmark.tag1 = tag1.strip()
+	bookmark.tag2 = tag2.strip()
+	bookmark.tag3 = tag3.strip()
 	await bookmark.update()
 	return bookmark
 	

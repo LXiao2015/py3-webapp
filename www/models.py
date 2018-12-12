@@ -30,6 +30,9 @@ class Blog(Model):
 	name = StringField(ddl='varchar(50)')
 	summary = StringField(ddl='varchar(200)')
 	content = TextField()
+	tag1 = StringField(ddl='varchar(50)')
+	tag2 = StringField(ddl='varchar(50)')
+	tag3 = StringField(ddl='varchar(50)')
 	created_at = FloatField(default=time.time)
 
 class Bookmark(Model):
@@ -42,9 +45,17 @@ class Bookmark(Model):
 	name = StringField(ddl='varchar(50)')
 	summary = StringField(ddl='varchar(200)')
 	url = TextField()
+	tag1 = StringField(ddl='varchar(50)')
+	tag2 = StringField(ddl='varchar(50)')
+	tag3 = StringField(ddl='varchar(50)')
 	created_at = FloatField(default=time.time)
 
+class Tag(Model):
+	__table__ = 'tags'
 
+	id = StringField(primary_key=True, default=next_id, ddl='varchat(50)')
+	tag = StringField(ddl='varchar(50)')
+	
 class Comment(Model):
 	__table__ = 'comments'
 

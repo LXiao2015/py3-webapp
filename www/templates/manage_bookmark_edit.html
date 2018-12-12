@@ -21,7 +21,6 @@
 						}
 						else {
 							// 提交后跳转到的地址
-							alert("here");
 							return location.assign('/manage/bookmarks');
 						}
 					});
@@ -45,7 +44,8 @@
 			initVM({
 				name: '',
 				summary: '',
-				url: ''
+				url: '',
+				tag: ''
 			});
 		}
 	});
@@ -89,7 +89,13 @@
 					<textarea v-model="url" rows="16" name="url" type="text" placeholder="链接地址" class="uk-width-1-1" style="resize:none;"></textarea>
 				</div>
 			</div>
-
+			<div class="uk-form-row">
+				<label class="uk-form-label">文章标签：</label>
+				<div class="uk-form-controls">
+					<textarea v-model="tag" rows="1" name="tag" type="text" placeholder="输入至多三个文章标签，以逗号分隔" class="uk-width-1-1" style="resize:none;"></textarea>
+				</div>
+			</div>
+			
 			<div class="uk-form-row">
 				<label class="uk-form-label">设为私密</label>
 				<div class="uk-form-controls">

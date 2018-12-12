@@ -28,6 +28,9 @@ create table blogs (
 	`name` varchar(50) not null,
 	`summary` varchar(200) not null,
 	`content` mediumtext not null,
+	`tag1` varchar(50) not null,
+	`tag2` varchar(50) not null,
+	`tag3` varchar(50) not null,
 	`private` bool not null,
 	`created_at` real not null,
 	key `idx_created_at` (`created_at`),
@@ -41,6 +44,9 @@ create table bookmarks (
 	`name` varchar(50) not null,
 	`summary` varchar(200) not null,
 	`url` mediumtext not null,
+	`tag1` varchar(50) not null,
+	`tag2` varchar(50) not null,
+	`tag3` varchar(50) not null,
 	`private` bool not null,
 	`created_at` real not null,
 	key `idx_created_at` (`created_at`),
@@ -56,5 +62,11 @@ create table comments (
 	`content` mediumtext not null,
 	`created_at` real not null,
 	key `idx_created_at` (`created_at`),
+	primary key (`id`)
+) engine=innodb default charset=utf8;
+
+create table tags (
+	`id` varchar(50) not null,
+	`tag` varchar(50) not null,
 	primary key (`id`)
 ) engine=innodb default charset=utf8;
