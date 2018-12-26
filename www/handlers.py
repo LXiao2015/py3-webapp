@@ -7,7 +7,7 @@ import markdown2
 from aiohttp import web
 from coroweb import get, post
 from apis import Page, APIError, APIValueError, APIResourceNotFoundError
-from models import User, Comment, Blog, Bookmark, next_id
+from models import User, Comment, Blog, Bookmark, Tag, next_id
 from config import configs
 
 COOKIE_NAME = 'awesession'
@@ -96,8 +96,19 @@ def compose_tag(tag1, tag2, tag3):
 	if tag3 == "":
 		return tag
 	tag = tag + tag3
-	print("组装tag: %s" % tag)
 	return tag
+
+'''
+async def update_tags(blog_id, former_tags, tags):
+	if cmp(former_tag, tag) == 0:
+		tags_to_remove = diff(former_tags, tags)
+		tags_to_add = diff(tags, former_tags)
+		for t in tags_to_remove:
+			tag = await Tag.find(where='blog_id = %s and tag = %s' % (blog_id, t))
+			
+		for t in tags_to_add:
+'''					
+	
 	
 # 后端API：
 # 获取日志：GET /api/blogs
@@ -176,7 +187,7 @@ async def api_get_bookmark(*, id):
 	return bookmark
 	
 @post('/api/blogs')
-async def api_create_blog(request, *, name, summary, content, tag, private=0):
+async def api_create_blog(request, *, name, summary, content, tag_str, private=0):
 	check_admin(request)	# 只有管理员才可以发布博客
 	if not name or not name.strip():
 		raise APIValueError('name', 'name cannot be empty.')
@@ -185,7 +196,8 @@ async def api_create_blog(request, *, name, summary, content, tag, private=0):
 	if not content or not content.strip():
 		raise APIValueError('content', 'content cannot be empty.')
 	# TAGS can be empty
-	tag1, tag2, tag3 = split_tags(tag)
+
+	tags = split_tags(tag_str)
 	blog = Blog(
 		private=private,
 		user_id=request.__user__.id, 	# app.py中把cookie2user获取到的用户赋给了request.__user__
@@ -194,15 +206,22 @@ async def api_create_blog(request, *, name, summary, content, tag, private=0):
 		name=name.strip(), 
 		summary=summary.strip(), 
 		content=content.strip(),
-		tag1=tag1.strip(),
-		tag2=tag2.strip(),
-		tag3=tag3.strip()
+		tag1=tags[0].strip(),
+		tag2=tags[1].strip(),
+		tag3=tags[2].strip()
 	)
 	await blog.save()
+	
+	for t in tags:
+		if t == "":
+			break;
+		tag = Tag(tag=t, blog_id="default")
+		await tag.save()
+		
 	return blog
 
 @post('/api/bookmarks')
-async def api_create_bookmark(request, *, name, summary, url, tag, private=0):
+async def api_create_bookmark(request, *, name, summary, url, tag_str, private=0):
 	check_admin(request)	# 只有管理员才可以发布博客
 	if not name or not name.strip():
 		raise APIValueError('name', 'name cannot be empty.')
@@ -210,7 +229,8 @@ async def api_create_bookmark(request, *, name, summary, url, tag, private=0):
 		raise APIValueError('summary', 'summary cannot be empty.')
 	if not url or not url.strip():
 		raise APIValueError('url', 'url cannot be empty.')
-	tag1, tag2, tag3 = split_tags(tag)
+		
+	tag = split_tags(tag_str)
 	bookmark = Bookmark(
 		private=private,
 		user_id=request.__user__.id, 	# app.py中把cookie2user获取到的用户赋给了request.__user__
@@ -223,10 +243,17 @@ async def api_create_bookmark(request, *, name, summary, url, tag, private=0):
 		tag3=tag3.strip()
 	)
 	await bookmark.save()
+	
+	for t in tags:
+		if t == "":
+			break;
+		tag = Tag(tag = t, blog_id = StringField(ddl='varchar(50)'))
+		await tag.save()
+		
 	return bookmark
 	
 @post('/api/blogs/{id}')
-async def api_update_blog(id, request, *, name, summary, content, tag, private):
+async def api_update_blog(id, request, *, name, summary, content, tag_str, private):
 	# 需要传入request来检查是否为管理员
 	check_admin(request)
 	blog = await Blog.find(id)
@@ -238,19 +265,25 @@ async def api_update_blog(id, request, *, name, summary, content, tag, private):
 	if not content or not content.strip():
 		raise APIValueError('content', 'content cannot be empty.')
 
-	tag1, tag2, tag3 = split_tags(tag)
+	tags = split_tags(tag_str)
 	blog.name = name.strip()
 	blog.summary = summary.strip()
 	blog.content = content.strip()
 	blog.private = private
-	blog.tag1 = tag1.strip(),
-	blog.tag2 = tag2.strip(),
-	blog.tag3 = tag3.strip()
+	
+	former_tags = (blog.tag1, blog.tag2, blog.tag3)
+	blog.tag1 = tags[0].strip(),
+	blog.tag2 = tags[1].strip(),
+	blog.tag3 = tags[2].strip()
 	await blog.update()
+	
+	# tag更改的判断
+	# update_tags(blog.id, former_tags, tags)
+	
 	return blog
 	
 @post('/api/bookmarks/{id}')
-async def api_update_bookmark(id, request, *, name, summary, url, tag, private):
+async def api_update_bookmark(id, request, *, name, summary, url, tag_str, private):
 	# 需要传入request来检查是否为管理员
 	check_admin(request)
 	bookmark = await Bookmark.find(id)
@@ -261,7 +294,8 @@ async def api_update_bookmark(id, request, *, name, summary, url, tag, private):
 		raise APIValueError('summary', 'summary cannot be empty.')
 	if not url or not url.strip():
 		raise APIValueError('url', 'url cannot be empty.')
-	tag1, tag2, tag3 = split_tags(tag)
+		
+	tag1, tag2, tag3 = split_tags(tag_str)
 	bookmark.name = name.strip()
 	bookmark.summary = summary.strip()
 	bookmark.url = url.strip()
@@ -270,6 +304,8 @@ async def api_update_bookmark(id, request, *, name, summary, url, tag, private):
 	bookmark.tag2 = tag2.strip()
 	bookmark.tag3 = tag3.strip()
 	await bookmark.update()
+	
+	# 这里需要加上tag更改的判断
 	return bookmark
 	
 @post('/api/blogs/{id}/secret')

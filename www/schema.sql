@@ -68,5 +68,8 @@ create table comments (
 create table tags (
 	`id` varchar(50) not null,
 	`tag` varchar(50) not null,
+	`blog_id` varchar(50) not null,
 	primary key (`id`)
 ) engine=innodb default charset=utf8;
+
+

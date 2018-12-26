@@ -55,6 +55,7 @@ class Tag(Model):
 
 	id = StringField(primary_key=True, default=next_id, ddl='varchat(50)')
 	tag = StringField(ddl='varchar(50)')
+	blog_id = StringField(ddl='varchar(50)')
 	
 class Comment(Model):
 	__table__ = 'comments'
